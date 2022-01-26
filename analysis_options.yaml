@@ -30,4 +30,4 @@ linter:
 
 analyzer:
   exclude:
-    - lib/scenebuilder/scene_builder_with_storage_web.dart
+    - "**.web.dart"
