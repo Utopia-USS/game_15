@@ -6,7 +6,8 @@ import 'package:game_15/game/game_model.dart';
 import 'package:game_15/game/game_values.dart';
 import 'package:game_15/kaleidoscope/kaleidoscope.dart';
 import 'package:game_15/kaleidoscope/kaleidoscope_delegate.dart';
-import 'package:game_15/util/geometry/alignment_rect.dart';
+import 'package:game_15/util/vector/vector_extensions.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 class Game extends HookWidget {
   final Widget child;
@@ -16,23 +17,35 @@ class Game extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final engine = useMemoized(GameEngine.new);
+    final model = useMemoized(() => ValueNotifier(engine.buildModel()));
+    final tickerProvider = useSingleTickerProvider();
+
+    useEffect(() {
+      final ticker = tickerProvider.createTicker((elapsed) {
+        engine.update(elapsed);
+        model.value = engine.buildModel();
+      });
+      ticker.start();
+      return ticker.dispose;
+    }, []);
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onPanStart: (details) => engine.onPanStart(_transform(context, details.localPosition)),
       onPanUpdate: (details) => engine.onPanUpdate(_transform(context, details.localPosition)),
       onPanEnd: (details) => engine.onPanEnd(),
       child: Kaleidoscope(
-        delegate: _GameDelegate(engine.model),
+        delegate: _GameDelegate(model),
         child: child,
       ),
     );
   }
 
-  Alignment _transform(BuildContext context, Offset offset) =>
-      FractionalOffset.fromOffsetAndSize(offset, context.size!);
+  Vector2 _transform(BuildContext context, Offset offset) =>
+      Vector2(offset.dx / context.size!.width, offset.dy / context.size!.height);
 }
 
-class _GameDelegate extends RelativeKaleidoscopeDelegate {
+class _GameDelegate extends KaleidoscopeDelegate {
   final ValueListenable<GameModel> model;
 
   const _GameDelegate(this.model) : super(repaint: model);
@@ -41,10 +54,11 @@ class _GameDelegate extends RelativeKaleidoscopeDelegate {
   int get shardCount => GameValues.childCount;
 
   @override
-  RelativeKaleidoscopeShard getRelativeModel(int index) {
-    return RelativeKaleidoscopeShard(
-      src: AlignmentRect.fromSize(GameValues.alignmentFor(index), GameValues.childSize),
-      dst: model.value.positions[index],
+  KaleidoscopeShard getShard(Size size, int index) {
+    final position = GameValues.initialPositionFor(index);
+    return KaleidoscopeShard(
+      src: position.aabbAround(GameValues.halfChildSize).toRect(size),
+      dst: (model.value.positions[index] - GameValues.halfChildSize).toOffset(size),
     );
   }
 

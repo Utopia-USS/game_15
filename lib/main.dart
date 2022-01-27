@@ -13,9 +13,13 @@ class MyHomePage extends HookWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SizedBox.expand(
-        child: Game(
-          child: MyAnimatedSomething(),
+      body: Center(
+        child: SizedBox(
+          width: 300,
+          height: 300,
+          child: Game(
+            child: MyAnimatedSomething(),
+          ),
         ),
       ),
     );

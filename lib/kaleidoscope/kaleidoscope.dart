@@ -62,6 +62,9 @@ class _RenderKaleidoscope extends RenderProxyBox {
   bool get alwaysNeedsCompositing => true;
 
   @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) => false;
+
+  @override
   void paint(PaintingContext context, Offset offset) {
     final shardCount = _delegate.shardCount;
     final layerModel = [

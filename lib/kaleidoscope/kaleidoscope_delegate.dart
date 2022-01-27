@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:game_15/util/geometry/alignment_rect.dart';
+import 'package:game_15/util/vector/vector_extensions.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 class KaleidoscopeShard {
   /// specifies fragment of child to be used in this shard
@@ -31,23 +32,4 @@ abstract class KaleidoscopeDelegate {
   KaleidoscopeShard getShard(Size size, int index);
 
   bool shouldRepaint(covariant KaleidoscopeDelegate other);
-}
-
-class RelativeKaleidoscopeShard {
-  final AlignmentRect src;
-  final Alignment dst;
-
-  const RelativeKaleidoscopeShard({required this.src, required this.dst});
-}
-
-abstract class RelativeKaleidoscopeDelegate extends KaleidoscopeDelegate {
-  const RelativeKaleidoscopeDelegate({Listenable? repaint}) : super(repaint: repaint);
-
-  RelativeKaleidoscopeShard getRelativeModel(int index);
-
-  @override
-  KaleidoscopeShard getShard(Size size, int index) {
-    final model = getRelativeModel(index);
-    return KaleidoscopeShard(src: model.src.toRect(size), dst: model.dst.alongSize(size));
-  }
 }
