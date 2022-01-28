@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:game_15/game/game_engine.dart';
+import 'package:game_15/engine/engine.dart';
 import 'package:game_15/game/game_model.dart';
 import 'package:game_15/game/game_values.dart';
 import 'package:game_15/kaleidoscope/kaleidoscope.dart';
@@ -16,7 +16,7 @@ class Game extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final engine = useMemoized(GameEngine.new);
+    final engine = useMemoized(Engine.new);
     final model = useMemoized(() => ValueNotifier(engine.buildModel()));
     final tickerProvider = useSingleTickerProvider();
 
@@ -57,8 +57,8 @@ class _GameDelegate extends KaleidoscopeDelegate {
   KaleidoscopeShard getShard(Size size, int index) {
     final position = GameValues.initialPositionFor(index);
     return KaleidoscopeShard(
-      src: position.aabbAround(GameValues.halfChildSize).toRect(size),
-      dst: (model.value.positions[index] - GameValues.halfChildSize).toOffset(size),
+      src: position.aabbAround(GameValues.halfChildExtent).toRect(size),
+      dst: (model.value.positions[index] - GameValues.halfChildExtent).toOffset(size),
     );
   }
 

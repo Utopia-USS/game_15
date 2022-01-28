@@ -7,7 +7,9 @@ class GameValues {
 
   static const dimension = 4;
 
-  static final halfChildSize = Vector2.all(0.5 / dimension);
+  static const halfChildSize = 0.5 / dimension;
+
+  static final halfChildExtent = Vector2.all(halfChildSize);
 
   static final center = Vector2.all(0.5);
 
