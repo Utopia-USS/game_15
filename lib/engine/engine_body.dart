@@ -76,7 +76,6 @@ class EngineTile implements EngineBody {
 
   @override
   bool move(EngineContext context, Vector2 direction, double distance) {
-    print("moving $debugIndex in $direction");
     final queryResult = context.query(aabb, direction, excludeTile: this);
     final unobstructedDistance = max(0.0, queryResult.distance - GameValues.halfChildSize);
     if (unobstructedDistance >= distance) {
@@ -90,9 +89,6 @@ class EngineTile implements EngineBody {
       return canMove;
     }
   }
-
-  @override
-  String toString() => "tile $debugIndex";
 }
 
 class EngineContainer implements EngineBody {
@@ -109,7 +105,4 @@ class EngineContainer implements EngineBody {
     translation.add(direction * distance);
     return false;
   }
-
-  @override
-  String toString() => "container";
 }
