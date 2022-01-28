@@ -1,7 +1,8 @@
+import 'dart:math';
+
 import 'package:game_15/engine/engine_body.dart';
 import 'package:game_15/game/game_model.dart';
 import 'package:game_15/game/game_values.dart';
-import 'package:game_15/util/vector/vector_extensions.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class _PanData {
@@ -18,9 +19,16 @@ class Engine implements EngineContext {
   final _container = EngineContainer();
 
   void update(Duration duration) {
+    if(_currentPan == null) {
+      final length = _container.translation.length;
+      final velocity = length * 0.1;
+      final durationSeconds = duration.inMicroseconds / Duration.microsecondsPerSecond;
+      final distance = min(length, velocity * durationSeconds);
+      _container.translation -= _container.translation * distance;
+    }
   }
 
-  GameModel buildModel() => GameModel(positions: [for (final tile in _tiles) tile.position]);
+  GameModel buildModel() => GameModel(positions: [for (final tile in _tiles) _container.translation + tile.position]);
 
   void onPanStart(Vector2 position) {
     final index = _findBodyIndex(position);
@@ -45,6 +53,21 @@ class Engine implements EngineContext {
     _currentPan = null;
   }
 
+  @override
+  EngineQueryResult query(Aabb2 aabb, Vector2 direction, {EngineTile? excludeTile}) {
+    final request = EngineQueryRequest(aabb: aabb, direction: direction);
+    var result = EngineQueryResult(body: _container, distance: _container.handleQuery(request));
+    for(final tile in _tiles) {
+      if(tile != excludeTile) {
+        final distance = tile.handleQuery(request);
+        if (distance != null && distance < result.distance) {
+          result = EngineQueryResult(body: tile, distance: distance);
+        }
+      }
+    }
+    return result;
+  }
+
   int? _findBodyIndex(Vector2 position) {
     for(int i = 0; i < _tiles.length; i++) {
       if(_tiles[i].aabb.containsVector2(position)) return i;
@@ -52,17 +75,5 @@ class Engine implements EngineContext {
   }
 
   static List<EngineTile> _buildInitialTiles() =>
-      [for(int i = 0; i < GameValues.childCount; i++) EngineTile(position: GameValues.initialPositionFor(i))];
-
-  @override
-  EngineQueryResult query(Aabb2 aabb, Vector2 direction) {
-    final request = EngineQueryRequest(aabb: aabb, direction: direction);
-    var result = EngineQueryResult(body: _container, distance: _container.handleQuery(request));
-    for(final tile in _tiles) {
-      final distance = tile.handleQuery(request);
-      if(distance != null && distance < result.distance) {
-
-      }
-    }
-  }
+      [for(int i = 0; i < GameValues.childCount; i++) EngineTile(position: GameValues.initialPositionFor(i), debugIndex: i)];
 }

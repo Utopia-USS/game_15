@@ -5,6 +5,8 @@ extension Vector2X on Vector2 {
   Offset toOffset([Size size = const Size.square(1)]) => Offset(x * size.width, y * size.height);
 
   Aabb2 aabbAround([Vector2? halfExtent]) => Aabb2.centerAndHalfExtents(this, halfExtent ?? Vector2.zero());
+
+  Vector2 extendedToInfinity() => Vector2(x == 0 ? 0 : double.infinity, y == 0 ? 0 : double.infinity);
 }
 
 extension Aabb2X on Aabb2 {
@@ -17,7 +19,10 @@ extension Aabb2X on Aabb2 {
     return result;
   }
 
-  Vector2 distanceToAabb2(Aabb2 other) {
+  bool intersectsWithAabb2Strict(Aabb2 other) {
+    final otherMax = other.max;
+    final otherMin = other.min;
 
+    return (min.x < otherMax.x) && (min.y < otherMax.y) && (max.x > otherMin.x) && (max.y > otherMin.y);
   }
 }
