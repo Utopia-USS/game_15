@@ -19,7 +19,7 @@ class ColorPickerItem extends StatelessWidget {
   Widget _buildContainer() {
     return PhysicalModel(
       color: Colors.transparent,
-      elevation: 24,
+      elevation: 30,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 600),
         curve: Curves.easeInCubic,
@@ -27,7 +27,7 @@ class ColorPickerItem extends StatelessWidget {
         width: size,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(size / 12),
-          border: Border.all(color: Colors.white, width: 3),
+          border: Border.all(color: Colors.white, width: 2.5),
           gradient: LinearGradient(
             end: Alignment.topRight,
             begin: Alignment.bottomLeft,

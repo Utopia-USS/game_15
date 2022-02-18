@@ -28,8 +28,8 @@ ColorPickerState useColorPickerState() {
   final animation = useAnimation(CurvedAnimation(parent: animationController, curve: Curves.easeInCubic));
   final pageController = usePageController(initialPage: 1, viewportFraction: 0.5);
 
-  final foregroundColorState = useState<ItemColor>(ItemColor.blue);
-  final backgroundColorState = useState<ItemColor>(ItemColor.blue);
+  final foregroundColorState = useState<ItemColor>(ItemColor.all[1]);
+  final backgroundColorState = useState<ItemColor>(ItemColor.all[1]);
 
   void animatePageView(int index) {
     pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInCubic);

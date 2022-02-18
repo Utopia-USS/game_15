@@ -36,5 +36,5 @@ class ItemColor {
     accentColor: const Color(0xff19FF9C),
   );
 
-  static final all = [green, teal, purple, orange, red, blue];
+  static final all = [blue, teal, green,  orange, red, purple];
 }
