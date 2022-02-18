@@ -20,6 +20,7 @@ class ColorPickerCarousel extends HookWidget {
     return SizedBox(
       height: height / 3,
       child: PageView.builder(
+        physics: const BouncingScrollPhysics(),
         controller: state.pageController,
         itemCount: ItemColor.all.length,
         itemBuilder: (context, index) {
