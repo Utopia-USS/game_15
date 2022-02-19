@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/game/game.dart';
+import 'package:game_15/widgets/color_picker/color_picker.dart';
+import 'package:game_15/widgets/drawer/drawer.dart';
 
 void main() {
   runApp(const MaterialApp(home: MyHomePage()));
@@ -18,7 +20,7 @@ class MyHomePage extends HookWidget {
           width: 300,
           height: 300,
           child: Game(
-            child: MyAnimatedSomething(),
+            child: ColorPicker(),
           ),
         ),
       ),

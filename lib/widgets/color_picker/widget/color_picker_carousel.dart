@@ -23,7 +23,7 @@ class ColorPickerCarousel extends HookWidget {
         itemCount: ItemColor.all.length,
         itemBuilder: (context, index) {
           final item = ItemColor.all[index];
-          final isSelected = state.foregroundColor == item;
+          final isSelected = state.foregroundColor == item || (state.foregroundColor == null && state.backgroundColor == item);
           return Center(
             child: ColorPickerItem(
               color: item,
