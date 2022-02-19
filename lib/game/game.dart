@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/engine/engine.dart';
 import 'package:game_15/game/game_model.dart';
 import 'package:game_15/game/game_values.dart';
+import 'package:game_15/game/game_wrapper.dart';
 import 'package:game_15/kaleidoscope/kaleidoscope.dart';
 import 'package:game_15/kaleidoscope/kaleidoscope_delegate.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
@@ -29,15 +30,16 @@ class Game extends HookWidget {
       return ticker.dispose;
     }, []);
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onPanStart: (details) => engine.onPanStart(_transform(context, details.localPosition)),
-      onPanUpdate: (details) => engine.onPanUpdate(_transform(context, details.localPosition)),
-      onPanEnd: (details) => engine.onPanEnd(),
-      child: Kaleidoscope(
-        delegate: _GameDelegate(model),
-        child: child,
-      ),
+    return  GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onPanStart: (details) => engine.onPanStart(_transform(context, details.localPosition)),
+        onPanUpdate: (details) => engine.onPanUpdate(_transform(context, details.localPosition)),
+        onPanEnd: (details) => engine.onPanEnd(),
+        child: Kaleidoscope(
+          delegate: _GameDelegate(model),
+          child: child,
+        ),
+
     );
   }
 
