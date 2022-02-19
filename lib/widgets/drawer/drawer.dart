@@ -1,0 +1,20 @@
+import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:game_15/widgets/drawer/state/drawer_state.dart';
+import 'package:game_15/widgets/drawer/view/drawer_view.dart';
+import 'package:game_15/widgets/model/item_color.dart';
+
+class DrawerWidget extends HookWidget {
+  const DrawerWidget({Key? key}) : super(key: key);
+
+  static final color = ItemColor.lavender;
+  static const slideValue = 225.0;
+  static const contentSlideValue = 100;
+
+
+  @override
+  Widget build(BuildContext context) {
+    final state = useDrawerState();
+    return DrawerView(state: state);
+  }
+}

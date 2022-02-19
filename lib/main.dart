@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/game/game.dart';
+import 'package:game_15/widgets/drawer/drawer.dart';
 
 void main() {
   runApp(const MaterialApp(home: MyHomePage()));

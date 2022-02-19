@@ -60,9 +60,9 @@ class ColorPickerBackground extends StatelessWidget {
           end: Alignment.topRight,
           begin: Alignment.bottomLeft,
           colors: [
-            color.primaryColor,
-            color.primaryColor,
-            color.accentColor,
+            color.primary,
+            color.primary,
+            color.accent,
           ],
         ),
       ),

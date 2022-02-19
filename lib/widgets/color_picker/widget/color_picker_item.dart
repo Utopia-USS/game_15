@@ -19,7 +19,7 @@ class ColorPickerItem extends StatelessWidget {
   Widget _buildContainer() {
     return PhysicalModel(
       color: Colors.transparent,
-      elevation: 30,
+      elevation: 40,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 600),
         curve: Curves.easeInCubic,
@@ -32,8 +32,8 @@ class ColorPickerItem extends StatelessWidget {
             end: Alignment.topRight,
             begin: Alignment.bottomLeft,
             colors: [
-              color.primaryColor,
-              color.accentColor,
+              color.primary,
+              color.accent,
             ],
           ),
         ),
