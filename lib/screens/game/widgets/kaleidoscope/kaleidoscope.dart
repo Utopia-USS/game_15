@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
-import 'package:game_15/kaleidoscope/kaleidoscope_delegate.dart';
-import 'package:game_15/kaleidoscope/kaleidoscope_layer.dart';
+
+import 'kaleidoscope_delegate.dart';
+import 'kaleidoscope_layer.dart';
 
 class Kaleidoscope extends SingleChildRenderObjectWidget {
   final KaleidoscopeDelegate delegate;

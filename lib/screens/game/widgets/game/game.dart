@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/engine/engine.dart';
-import 'package:game_15/game/game_model.dart';
-import 'package:game_15/game/game_values.dart';
-import 'package:game_15/game/game_wrapper.dart';
-import 'package:game_15/kaleidoscope/kaleidoscope.dart';
-import 'package:game_15/kaleidoscope/kaleidoscope_delegate.dart';
+import 'package:game_15/screens/game/widgets/kaleidoscope/kaleidoscope.dart';
+import 'package:game_15/screens/game/widgets/kaleidoscope/kaleidoscope_delegate.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
 import 'package:vector_math/vector_math_64.dart';
+
+import 'game_model.dart';
+import 'game_values.dart';
 
 class Game extends HookWidget {
   final Widget child;

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/const/app_text.dart';
+import 'package:game_15/screens/game/state/game_screen_state.dart';
 
 class MenuContent extends HookWidget {
   final Animation<double> animation;
+  final void Function(GameType) onItemPressed;
 
   const MenuContent({
     Key? key,
     required this.animation,
+    required this.onItemPressed,
   }) : super(key: key);
 
   @override
@@ -43,9 +46,9 @@ class MenuContent extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _buildTitle(),
-        _buildItem("Color picker"),
-        _buildItem("Drawer"),
-        _buildItem("Game 3"),
+        _buildItem("Color picker", GameType.color_picker),
+        _buildItem("Drawer", GameType.menu),
+        _buildItem("Game 3", GameType.menu),
         const Spacer(),
       ],
     );
@@ -75,12 +78,15 @@ class MenuContent extends HookWidget {
     );
   }
 
-  Widget _buildItem(String text) {
+  Widget _buildItem(String text, GameType type) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Text(
-        text,
-        style: AppText.menuItem,
+      child: GestureDetector(
+        onTap: () => onItemPressed(type),
+        child: Text(
+          text,
+          style: AppText.menuItem,
+        ),
       ),
     );
   }

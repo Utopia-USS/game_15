@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:game_15/engine/engine_body.dart';
-import 'package:game_15/game/game_model.dart';
-import 'package:game_15/game/game_values.dart';
+import 'package:game_15/screens/game/widgets/game/game_model.dart';
+import 'package:game_15/screens/game/widgets/game/game_values.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class _PanData {

@@ -26,6 +26,7 @@ class MenuScreen extends HookWidget {
           );
         },
         transitionDuration: const Duration(milliseconds: 2000),
+        reverseTransitionDuration: const Duration(milliseconds: 1500),
       ),
     );
   }

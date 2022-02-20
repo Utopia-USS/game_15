@@ -23,10 +23,13 @@ class MenuScreenView extends StatelessWidget {
             return Stack(
               children: [
                 MenuBackground(animation: animation),
-                MenuContent(animation: animation),
+                MenuContent(
+                  animation: animation,
+                  onItemPressed: state.onTypeChanged,
+                ),
               ],
             );
-          }
+          },
         ),
       ),
     );
