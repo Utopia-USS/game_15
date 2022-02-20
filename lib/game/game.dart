@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/engine/engine.dart';
 import 'package:game_15/game/game_model.dart';
+import 'package:game_15/game/game_randomizer.dart';
 import 'package:game_15/game/game_values.dart';
 import 'package:game_15/kaleidoscope/kaleidoscope.dart';
 import 'package:game_15/kaleidoscope/kaleidoscope_delegate.dart';
@@ -11,6 +12,8 @@ import 'package:game_15/util/widget/decoration_clipper.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class Game extends HookWidget {
+  static const _moves = 3;
+
   final Widget child;
   final Decoration? decoration;
   final Decoration? foregroundDecoration;
@@ -24,7 +27,7 @@ class Game extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final engine = useMemoized(Engine.new);
+    final engine = useMemoized(_createEngine);
     final model = useMemoized(() => ValueNotifier(engine.buildModel()));
     final tickerProvider = useSingleTickerProvider();
 
@@ -49,7 +52,7 @@ class Game extends HookWidget {
           Stack(
             fit: StackFit.passthrough,
             children: [
-              if(decoration != null) DecoratedBox(decoration: decoration!),
+              if (decoration != null) DecoratedBox(decoration: decoration!),
               ClipPath(
                 clipper: DecorationClipper(decoration: decoration!),
                 child: Kaleidoscope(
@@ -57,13 +60,15 @@ class Game extends HookWidget {
                   child: child,
                 ),
               ),
-              if(foregroundDecoration != null) DecoratedBox(decoration: foregroundDecoration!),
+              if (foregroundDecoration != null) DecoratedBox(decoration: foregroundDecoration!),
             ],
           ),
         ],
       ),
     );
   }
+
+  Engine _createEngine() => Engine(initialPositions: EngineRandomizer.generatePositions(moves: _moves));
 
   Vector2 _transform(BuildContext context, Offset offset) =>
       Vector2(offset.dx / context.size!.width, offset.dy / context.size!.height);
@@ -94,7 +99,10 @@ class _KaleidoscopeDelegate extends KaleidoscopeDelegate {
 
   @override
   KaleidoscopeShard getShard(Size size, int index) {
-    final position = GameValues.initialPositionFor(index);
+    final position = Vector2(
+      GameValues.transformCoordinate(GameValues.xFor(index)),
+      GameValues.transformCoordinate(GameValues.yFor(index)),
+    );
     return KaleidoscopeShard(
       src: position.aabbAround(GameValues.halfChildExtent).toRect(size),
       dst: (model.value.positions[index] - GameValues.halfChildExtent).toOffset(size),
