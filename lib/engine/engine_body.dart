@@ -1,63 +1,33 @@
 import 'dart:math';
-import 'package:game_15/screens/game/widgets/game/game_values.dart';
+
+import 'package:game_15/engine/engine_context.dart';
+import 'package:game_15/engine/engine_direction.dart';
+import 'package:game_15/game/game_values.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
 import 'package:vector_math/vector_math_64.dart';
 
-class EngineDirection {
-  const EngineDirection._();
-
-  static final up = Vector2(0, -1);
-  static final down = Vector2(0, 1);
-  static final left = Vector2(-1, 0);
-  static final right = Vector2(1, 0);
-  static final downRight = (down + right).normalized();
-}
-
-class EngineQueryResult {
-  final EngineBody body;
-  final double distance;
-
-  const EngineQueryResult({required this.body, required this.distance});
-}
-
-class EngineQueryRequest {
-  final Aabb2 aabb;
-  final Vector2 direction;
-
-  EngineQueryRequest({required this.aabb, required this.direction});
-
-  late final aabbExtension = _calculateAabbExtension();
-
-  Aabb2 _calculateAabbExtension() {
-    final min = aabb.min;
-    final max = aabb.max;
-    if (direction == EngineDirection.up) {
-      return Aabb2.minMax(Vector2(min.x, -double.infinity), Vector2(max.x, min.y));
-    }
-    if (direction == EngineDirection.down) {
-      return Aabb2.minMax(Vector2(min.x, max.y), Vector2(max.x, double.infinity));
-    }
-    if (direction == EngineDirection.left) {
-      return Aabb2.minMax(Vector2(-double.infinity, min.y), Vector2(min.x, max.y));
-    }
-    if (direction == EngineDirection.right) {
-      return Aabb2.minMax(Vector2(max.x, min.y), Vector2(double.infinity, max.y));
-    }
-    throw UnimplementedError("Invalid direction");
-  }
-}
-
-abstract class EngineContext {
-  EngineQueryResult query(Aabb2 aabb, Vector2 direction, {EngineTile? excludeTile});
-}
-
 abstract class EngineBody {
+  /// Handle distance query from the engine.
+  ///
+  /// Returns `null` if this body is outside the query's [request.direction].
+  /// Otherwise, returns distance from [request.aabb]'s center to this body's nearest edge.
   double? handleQuery(EngineQueryRequest request);
 
+  /// Try to move this body by [distance] in [direction].
+  ///
+  /// Returns `true` if the move "succeeded", i.e. body requesting the movement can assume there's now [distance] of
+  /// free space in given [direction].
   bool move(EngineContext context, Vector2 direction, double distance);
+
+  /// Let this body move freely for delta [time].
+  void updateFreely(double time);
 }
 
 class EngineTile implements EngineBody {
+  static const _teleportDistance = 0.005;
+  static const _snapVelocity = 0.005;
+
+  /// Position of this body's center.
   Vector2 position;
 
   final int? debugIndex;
@@ -71,6 +41,7 @@ class EngineTile implements EngineBody {
     if (request.aabbExtension.intersectsWithAabb2Strict(aabb)) {
       return (position - request.aabb.center).dot(request.direction) - GameValues.halfChildSize;
     }
+    return null;
   }
 
   @override
@@ -88,9 +59,27 @@ class EngineTile implements EngineBody {
       return canMove;
     }
   }
+
+  @override
+  void updateFreely(double time) {
+    position = Vector2(_update(position.x, time), _update(position.y, time));
+  }
+
+  double _update(double current, double time) {
+    final closest = GameValues.closestPositionFor(current);
+    final offset = closest - current;
+    if (offset.abs() <= _teleportDistance) {
+      return closest;
+    } else {
+      return current + offset.sign * min(offset.abs(), time * _snapVelocity);
+    }
+  }
 }
 
 class EngineContainer implements EngineBody {
+  static const _velocityLengthRatio = 0.1;
+  static const _moveDistanceRatio = 0.15;
+
   Vector2 translation = Vector2.zero();
 
   @override
@@ -101,7 +90,17 @@ class EngineContainer implements EngineBody {
 
   @override
   bool move(EngineContext context, Vector2 direction, double distance) {
-    translation.add(direction * distance);
+    // translation'(ds) ~ 1 / translation.length + 1 => translation(s) ~ log(s)
+    final effectiveDistance = _moveDistanceRatio * distance / (translation.length + 1);
+    translation.add(direction * effectiveDistance);
     return false;
+  }
+
+  @override
+  void updateFreely(double time) {
+    final length = translation.length;
+    final velocity = length * _velocityLengthRatio;
+    final distance = min(length, velocity * time);
+    translation -= translation * distance;
   }
 }
