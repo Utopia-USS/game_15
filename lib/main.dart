@@ -18,6 +18,15 @@ class MyHomePage extends HookWidget {
           width: 300,
           height: 300,
           child: Game(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: kElevationToShadow[3],
+              borderRadius: BorderRadius.circular(16),
+            ),
+            foregroundDecoration: BoxDecoration(
+              border: const Border.fromBorderSide(BorderSide(width: 2)),
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: MyAnimatedSomething(),
           ),
         ),

@@ -1,6 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:game_15/util/vector/vector_extensions.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 class KaleidoscopeShard {
   /// specifies fragment of child to be used in this shard

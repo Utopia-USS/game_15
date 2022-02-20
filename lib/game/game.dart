@@ -7,12 +7,20 @@ import 'package:game_15/game/game_values.dart';
 import 'package:game_15/kaleidoscope/kaleidoscope.dart';
 import 'package:game_15/kaleidoscope/kaleidoscope_delegate.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
+import 'package:game_15/util/widget/decoration_clipper.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class Game extends HookWidget {
   final Widget child;
+  final Decoration? decoration;
+  final Decoration? foregroundDecoration;
 
-  const Game({Key? key, required this.child}) : super(key: key);
+  const Game({
+    Key? key,
+    required this.child,
+    this.decoration,
+    this.foregroundDecoration,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +42,25 @@ class Game extends HookWidget {
       onPanStart: (details) => engine.onPanStart(_transform(context, details.localPosition)),
       onPanUpdate: (details) => engine.onPanUpdate(_transform(context, details.localPosition)),
       onPanEnd: (details) => engine.onPanEnd(),
-      child: Kaleidoscope(
-        delegate: _GameDelegate(model),
-        child: child,
+      child: Flow(
+        clipBehavior: Clip.none,
+        delegate: _FlowDelegate(model),
+        children: [
+          Stack(
+            fit: StackFit.passthrough,
+            children: [
+              if(decoration != null) DecoratedBox(decoration: decoration!),
+              ClipPath(
+                clipper: DecorationClipper(decoration: decoration!),
+                child: Kaleidoscope(
+                  delegate: _KaleidoscopeDelegate(model),
+                  child: child,
+                ),
+              ),
+              if(foregroundDecoration != null) DecoratedBox(decoration: foregroundDecoration!),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -45,10 +69,25 @@ class Game extends HookWidget {
       Vector2(offset.dx / context.size!.width, offset.dy / context.size!.height);
 }
 
-class _GameDelegate extends KaleidoscopeDelegate {
+class _FlowDelegate extends FlowDelegate {
   final ValueListenable<GameModel> model;
 
-  const _GameDelegate(this.model) : super(repaint: model);
+  const _FlowDelegate(this.model) : super(repaint: model);
+
+  @override
+  void paintChildren(FlowPaintingContext context) {
+    final translation = model.value.translation.toOffset(context.size);
+    context.paintChild(0, transform: Matrix4.translationValues(translation.dx, translation.dy, 0));
+  }
+
+  @override
+  bool shouldRepaint(_FlowDelegate other) => other.model != model;
+}
+
+class _KaleidoscopeDelegate extends KaleidoscopeDelegate {
+  final ValueListenable<GameModel> model;
+
+  const _KaleidoscopeDelegate(this.model) : super(repaint: model);
 
   @override
   int get shardCount => GameValues.childCount;
@@ -63,5 +102,5 @@ class _GameDelegate extends KaleidoscopeDelegate {
   }
 
   @override
-  bool shouldRepaint(_GameDelegate other) => other.model != model;
+  bool shouldRepaint(_KaleidoscopeDelegate other) => other.model != model;
 }

@@ -27,7 +27,12 @@ class Engine implements EngineContext {
     }
   }
 
-  GameModel buildModel() => GameModel(positions: [for (final tile in _tiles) _container.translation + tile.position]);
+  GameModel buildModel() {
+    return GameModel(
+      translation: _container.translation,
+      positions: [for (final tile in _tiles) tile.position],
+    );
+  }
 
   void onPanStart(Vector2 position) {
     final index = _findBodyIndex(position);
