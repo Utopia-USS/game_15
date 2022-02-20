@@ -13,24 +13,21 @@ class MenuScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final animation = Provider.of<Animation<double>>(context, listen: false);
-    return GestureDetector(
-      onTap: () => Navigator.pop(context),
-      child: Material(
-        color: Colors.transparent,
-        child: AnimatedBuilder(
-          animation: animation,
-          builder: (context, child) {
-            return Stack(
-              children: [
-                MenuBackground(animation: animation),
-                MenuContent(
-                  animation: animation,
-                  onItemPressed: state.onTypeChanged,
-                ),
-              ],
-            );
-          },
-        ),
+    return Material(
+      color: Colors.transparent,
+      child: AnimatedBuilder(
+        animation: animation,
+        builder: (context, child) {
+          return Stack(
+            children: [
+              MenuBackground(animation: animation),
+              MenuContent(
+                animation: animation,
+                onItemPressed: state.onTypeChanged,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

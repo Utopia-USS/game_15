@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_15/widgets/model/item_color.dart';
+import 'package:game_15/model/item_color.dart';
 
 class ColorPickerItem extends StatelessWidget {
   final Function() onPressed;

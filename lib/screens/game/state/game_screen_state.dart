@@ -2,7 +2,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/state/game_type_state.dart';
 import 'package:utopia_hooks/utopia_hooks.dart';
 
-enum GameType{color_picker, menu}
+enum GameType{color_picker, menu, ripple}
 
 class GameScreenState {
   final GameType type;

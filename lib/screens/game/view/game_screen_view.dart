@@ -4,7 +4,8 @@ import 'package:game_15/screens/game/state/game_screen_state.dart';
 import 'package:game_15/screens/game/widgets/game/game.dart';
 import 'package:game_15/widgets/color_picker/color_picker.dart';
 import 'package:game_15/widgets/drawer/drawer.dart';
-import 'package:game_15/widgets/model/item_color.dart';
+import 'package:game_15/model/item_color.dart';
+import 'package:game_15/widgets/ripple/ripple_widget.dart';
 
 class GameScreenView extends StatelessWidget {
   final GameScreenState state;
@@ -84,6 +85,8 @@ class GameScreenView extends StatelessWidget {
         return ItemColor.all[1];
       case GameType.menu:
         return ItemColor.lavender;
+      case GameType.ripple:
+        return ItemColor.orange;
     }
   }
 
@@ -93,6 +96,8 @@ class GameScreenView extends StatelessWidget {
         return ColorPicker();
       case GameType.menu:
         return DrawerWidget();
+      case GameType.ripple:
+        return RippleWidget();
     }
   }
 }
