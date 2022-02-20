@@ -48,7 +48,7 @@ class MenuContent extends HookWidget {
         _buildTitle(),
         _buildItem("Color picker", GameType.color_picker),
         _buildItem("Drawer", GameType.menu),
-        _buildItem("Game 3", GameType.menu),
+        _buildItem("Ripple", GameType.ripple),
         const Spacer(),
       ],
     );
