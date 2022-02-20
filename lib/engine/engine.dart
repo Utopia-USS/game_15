@@ -14,10 +14,14 @@ class _PanData {
 
 class Engine implements EngineContext {
   _PanData? _currentPan;
-  final _tiles = _buildInitialTiles();
+  final List<EngineTile> _tiles;
   final _container = EngineContainer();
 
-  List<EngineBody> get _bodies => [_container, ..._tiles];
+  Engine({required List<Vector2> initialPositions}) : _tiles = _buildInitialTiles(initialPositions);
+
+  List<EngineBody>
+
+  get _bodies => [_container, ..._tiles];
 
   void update(Duration duration) {
     if (_currentPan == null) {
@@ -27,7 +31,12 @@ class Engine implements EngineContext {
     }
   }
 
-  GameModel buildModel() => GameModel(positions: [for (final tile in _tiles) _container.translation + tile.position]);
+  GameModel buildModel() {
+    return GameModel(
+      translation: _container.translation,
+      positions: [for (final tile in _tiles) tile.position],
+    );
+  }
 
   void onPanStart(Vector2 position) {
     final index = _findBodyIndex(position);
@@ -74,8 +83,6 @@ class Engine implements EngineContext {
     return null;
   }
 
-  static List<EngineTile> _buildInitialTiles() => [
-        for (int i = 0; i < GameValues.childCount; i++)
-          EngineTile(position: GameValues.initialPositionFor(i), debugIndex: i)
-      ];
+  static List<EngineTile> _buildInitialTiles(List<Vector2> positions) =>
+      [for(int i = 0; i < GameValues.childCount; i++) EngineTile(position: positions[i], debugIndex: i)];
 }
