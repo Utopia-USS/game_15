@@ -78,6 +78,7 @@ class EngineTile implements EngineBody {
 
 class EngineContainer implements EngineBody {
   static const _velocityLengthRatio = 0.1;
+  static const _moveDistanceRatio = 0.15;
 
   Vector2 translation = Vector2.zero();
 
@@ -89,7 +90,9 @@ class EngineContainer implements EngineBody {
 
   @override
   bool move(EngineContext context, Vector2 direction, double distance) {
-    translation.add(direction * distance);
+    // translation'(ds) ~ 1 / translation.length + 1 => translation(s) ~ log(s)
+    final effectiveDistance = _moveDistanceRatio * distance / (translation.length + 1);
+    translation.add(direction * effectiveDistance);
     return false;
   }
 
