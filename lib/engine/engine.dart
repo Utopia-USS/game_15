@@ -1,6 +1,6 @@
-import 'dart:math';
-
 import 'package:game_15/engine/engine_body.dart';
+import 'package:game_15/engine/engine_context.dart';
+import 'package:game_15/engine/engine_direction.dart';
 import 'package:game_15/game/game_model.dart';
 import 'package:game_15/game/game_values.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -12,19 +12,18 @@ class _PanData {
   _PanData({required this.index, required this.lastPosition});
 }
 
-
 class Engine implements EngineContext {
   _PanData? _currentPan;
   final _tiles = _buildInitialTiles();
   final _container = EngineContainer();
 
+  List<EngineBody> get _bodies => [_container, ..._tiles];
+
   void update(Duration duration) {
-    if(_currentPan == null) {
-      final length = _container.translation.length;
-      final velocity = length * 0.1;
-      final durationSeconds = duration.inMicroseconds / Duration.microsecondsPerSecond;
-      final distance = min(length, velocity * durationSeconds);
-      _container.translation -= _container.translation * distance;
+    if (_currentPan == null) {
+      for (final body in _bodies) {
+        body.updateFreely(duration.inMicroseconds / Duration.microsecondsPerSecond);
+      }
     }
   }
 
@@ -57,8 +56,8 @@ class Engine implements EngineContext {
   EngineQueryResult query(Aabb2 aabb, Vector2 direction, {EngineTile? excludeTile}) {
     final request = EngineQueryRequest(aabb: aabb, direction: direction);
     var result = EngineQueryResult(body: _container, distance: _container.handleQuery(request));
-    for(final tile in _tiles) {
-      if(tile != excludeTile) {
+    for (final tile in _tiles) {
+      if (tile != excludeTile) {
         final distance = tile.handleQuery(request);
         if (distance != null && distance < result.distance) {
           result = EngineQueryResult(body: tile, distance: distance);
@@ -69,11 +68,14 @@ class Engine implements EngineContext {
   }
 
   int? _findBodyIndex(Vector2 position) {
-    for(int i = 0; i < _tiles.length; i++) {
-      if(_tiles[i].aabb.containsVector2(position)) return i;
+    for (int i = 0; i < _tiles.length; i++) {
+      if (_tiles[i].aabb.containsVector2(position)) return i;
     }
+    return null;
   }
 
-  static List<EngineTile> _buildInitialTiles() =>
-      [for(int i = 0; i < GameValues.childCount; i++) EngineTile(position: GameValues.initialPositionFor(i), debugIndex: i)];
+  static List<EngineTile> _buildInitialTiles() => [
+        for (int i = 0; i < GameValues.childCount; i++)
+          EngineTile(position: GameValues.initialPositionFor(i), debugIndex: i)
+      ];
 }

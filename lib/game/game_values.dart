@@ -16,6 +16,9 @@ class GameValues {
   static Vector2 initialPositionFor(int index) =>
       Vector2((xFor(index) + 0.5) / dimension, (yFor(index) + 0.5) / dimension);
 
+  static double closestPositionFor(double position) =>
+      ((position - halfChildSize) * dimension).round() / dimension + halfChildSize;
+
   static int xFor(int index) => index % dimension;
 
   static int yFor(int index) => index ~/ dimension;
