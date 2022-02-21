@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/game/game.dart';
+import 'package:game_15/screens/menu/menu_screen.dart';
 import 'package:game_15/widgets/color_picker/color_picker.dart';
 import 'package:game_15/widgets/drawer/drawer.dart';
 
@@ -13,14 +14,17 @@ class MyHomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: SizedBox(
-          width: 300,
-          height: 300,
-          child: Game(
-            child: ColorPicker(),
+    return GestureDetector(
+      onTap: () => MenuScreen.show(context),
+      child: Scaffold(
+        appBar: AppBar(),
+        body: Center(
+          child: SizedBox(
+            width: 300,
+            height: 300,
+            child: Game(
+              child: ColorPicker(),
+            ),
           ),
         ),
       ),
