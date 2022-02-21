@@ -1,9 +1,10 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/rendering.dart';
-import 'package:game_15/kaleidoscope/kaleidoscope_delegate.dart';
 import 'package:game_15/util/ui/engine_layer/engine_layer_storage.dart';
 import 'package:game_15/util/ui/scene_builder/scene_builder_with_storage.dart';
+
+import 'kaleidoscope_delegate.dart';
 
 typedef KaleidoscopeLayerModel = List<KaleidoscopeShard>;
 

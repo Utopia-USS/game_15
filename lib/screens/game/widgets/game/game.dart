@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart' as ui;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/engine/engine.dart';
-import 'package:game_15/game/game_model.dart';
-import 'package:game_15/game/game_randomizer.dart';
-import 'package:game_15/game/game_values.dart';
-import 'package:game_15/kaleidoscope/kaleidoscope.dart';
-import 'package:game_15/kaleidoscope/kaleidoscope_delegate.dart';
+import 'package:game_15/screens/game/widgets/kaleidoscope/kaleidoscope.dart';
+import 'package:game_15/screens/game/widgets/kaleidoscope/kaleidoscope_delegate.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
 import 'package:game_15/util/widget/decoration_clipper.dart';
 import 'package:vector_math/vector_math_64.dart';
+
+import 'game_model.dart';
+import 'game_randomizer.dart';
+import 'game_values.dart';
 
 class Game extends HookWidget {
   static const _moves = 3;
@@ -51,8 +53,13 @@ class Game extends HookWidget {
         children: [
           Stack(
             fit: StackFit.passthrough,
+            overflow: Overflow.visible,
             children: [
-              if (decoration != null) DecoratedBox(decoration: decoration!),
+              ui.Material(
+                elevation: 50,
+                color: ui.Colors.transparent,
+                child: DecoratedBox(decoration: decoration!),
+              ),
               ClipPath(
                 clipper: DecorationClipper(decoration: decoration!),
                 child: Kaleidoscope(
@@ -60,7 +67,17 @@ class Game extends HookWidget {
                   child: child,
                 ),
               ),
-              if (foregroundDecoration != null) DecoratedBox(decoration: foregroundDecoration!),
+              ///without stretch border was desynchronized while moving
+              if (foregroundDecoration != null)
+                Positioned(
+                  left: -1,
+                  right: -1,
+                  bottom: -1,
+                  top: -1,
+                  child: DecoratedBox(
+                    decoration: foregroundDecoration!,
+                  ),
+                ),
             ],
           ),
         ],
