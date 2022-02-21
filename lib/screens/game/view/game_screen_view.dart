@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:game_15/model/item_color.dart';
 import 'package:game_15/screens/game/state/game_screen_state.dart';
 import 'package:game_15/screens/game/widgets/game/game.dart';
 import 'package:game_15/widgets/color_picker/color_picker.dart';
 import 'package:game_15/widgets/drawer/drawer.dart';
-import 'package:game_15/model/item_color.dart';
 import 'package:game_15/widgets/ripple/ripple_widget.dart';
 
 class GameScreenView extends StatelessWidget {
@@ -36,47 +36,41 @@ class GameScreenView extends StatelessWidget {
             ],
           ),
         ),
-        child: Center(
-          child: SizedBox(
-            height: 300,
-            width: 300,
-            child: Game(
-              child: _buildGame(),
-            ),
-          ),
-        ),
+        child: _buildContent(),
       ),
     );
   }
 
-  Widget _buildMock(){
-    final color = ItemColor.lavender;
-    return  Center(
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
-        elevation: 20,
-        child: Container(
-          height: 300,
-          width: 300,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white, width: 4),
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                color.accent,
-                color.primary,
-              ],
-            ),
-          ),
+  Widget _buildContent() {
+    return LayoutBuilder(builder: (context, constraints) {
+      final height = constraints.maxHeight;
+      final width = constraints.maxWidth;
+      final smallerSide = height > width ? width : height;
+      final size = smallerSide * 0.8;
+      return Center(
+        child: SizedBox(
+          height: size,
+          width: size,
           child: Game(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: kElevationToShadow[30],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            foregroundDecoration: BoxDecoration(
+              border: Border.fromBorderSide(
+                BorderSide(
+                  width: size / 55,
+                  color: _getColorTheme().primary,
+                ),
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: _buildGame(),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   ItemColor _getColorTheme() {
@@ -87,6 +81,17 @@ class GameScreenView extends StatelessWidget {
         return ItemColor.lavender;
       case GameType.ripple:
         return ItemColor.orange;
+    }
+  }
+
+  Color _getBorderColor() {
+    switch (state.type) {
+      case GameType.color_picker:
+        return ItemColor.all[1].primary;
+      case GameType.menu:
+        return ItemColor.lavender.primary;
+      case GameType.ripple:
+        return ItemColor.blue.primary;
     }
   }
 
