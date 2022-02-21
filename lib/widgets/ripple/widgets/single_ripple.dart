@@ -6,12 +6,14 @@ class SingleRipple extends StatelessWidget {
   final double width;
   final double radius;
   final Widget child;
+  final Offset Function(Offset)? globalToLocalOffset;
 
   const SingleRipple({
     Key? key,
     required this.radius,
     required this.child,
     required this.center,
+    required this.globalToLocalOffset,
     this.width = 18,
   }) :  assert(width >= 10),
         super(key: key);
@@ -20,8 +22,7 @@ class SingleRipple extends StatelessWidget {
   Widget build(BuildContext context) {
     final layerNum = (width / 2).ceil();
     final internalRadius = radius - width;
-    final RenderBox? box = context.findRenderObject() as RenderBox?;
-    final localOffset = box?.globalToLocal(center);
+    final localOffset = globalToLocalOffset != null ? globalToLocalOffset!(center) : null;
     return localOffset != null
         ? Stack(
       children: <Widget>[

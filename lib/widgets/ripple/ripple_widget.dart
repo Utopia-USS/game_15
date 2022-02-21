@@ -5,14 +5,14 @@ import 'package:game_15/widgets/ripple/state/ripple_state.dart';
 import 'package:game_15/widgets/ripple/view/ripple_view.dart';
 
 class RippleWidget extends HookWidget {
-  const RippleWidget({Key? key}) : super(key: key);
+  const RippleWidget({required GlobalKey key}) : super(key: key);
 
   static final color = ItemColor.orange;
 
 
   @override
   Widget build(BuildContext context) {
-    final state = useRippleState();
+    final state = useRippleState(widgetKey: key as GlobalKey);
     return RippleView(state: state);
   }
 }
