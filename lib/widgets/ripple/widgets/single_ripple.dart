@@ -64,7 +64,7 @@ class SingleRipple extends StatelessWidget {
             Positioned.fill(
               child: Container(
                 color: i <= layerNum/2
-                    ? Color.fromRGBO(255, 255, 255, alphaCoef * (0.0 + i/layerNum * 2))
+                    ? Color.fromRGBO(255, 0, 157, alphaCoef * (0.0 + i/layerNum * 2))
                     : Color.fromRGBO(0, 0, 0, alphaCoef * (-1.0 + i/layerNum * 2)),
               ),
             ),
