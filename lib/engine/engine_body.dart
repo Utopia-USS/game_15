@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:game_15/engine/engine_context.dart';
 import 'package:game_15/engine/engine_direction.dart';
-import 'package:game_15/game/game_values.dart';
+import 'package:game_15/screens/game/widgets/game/game_values.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
 import 'package:vector_math/vector_math_64.dart';
 
