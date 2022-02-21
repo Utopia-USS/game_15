@@ -21,8 +21,8 @@ class ColorPickerItem extends StatelessWidget {
       color: Colors.transparent,
       elevation: 40,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeInCubic,
+        duration: const Duration(milliseconds: 1000),
+        curve: Curves.bounceOut,
         height: size,
         width: size,
         decoration: BoxDecoration(

@@ -15,7 +15,6 @@ class ColorPickerView extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           return ColorPickerBackground(
-            constraints: constraints,
             state: state,
             child: ColorPickerCarousel(
               constraints: constraints,

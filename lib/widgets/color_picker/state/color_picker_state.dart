@@ -25,7 +25,6 @@ class ColorPickerState {
 
 ColorPickerState useColorPickerState() {
   final animationController = useAnimationController(duration: const Duration(milliseconds: 600));
-  final animation = useAnimation(CurvedAnimation(parent: animationController, curve: Curves.easeInCubic));
   final pageController = usePageController(initialPage: 1, viewportFraction: 0.5);
 
   final foregroundColorState = useState<ItemColor>(ItemColor.all[1]);

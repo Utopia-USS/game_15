@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/widgets/color_picker/state/color_picker_state.dart';
 import 'package:game_15/widgets/model/item_color.dart';
 
-class ColorPickerBackground extends StatelessWidget {
+class ColorPickerBackground extends HookWidget {
   final ColorPickerState state;
   final Widget child;
   final BoxConstraints constraints;
