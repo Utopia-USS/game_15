@@ -1,18 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:game_15/screens/game/game_screen.dart';
-import 'package:game_15/state/game_type_state.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:game_15/game/game.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        GameTypeStateProvider(),
-      ],
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: GameScreen(),
+  runApp(const MaterialApp(home: MyHomePage()));
+}
+
+class MyHomePage extends HookWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: SizedBox(
+          width: 300,
+          height: 300,
+          child: Game(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: kElevationToShadow[3],
+              borderRadius: BorderRadius.circular(16),
+            ),
+            foregroundDecoration: BoxDecoration(
+              border: const Border.fromBorderSide(BorderSide(width: 2)),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: MyAnimatedSomething(),
+          ),
+        ),
       ),
-    ),
-  );
+    );
+  }
+}
+
+class MyAnimatedSomething extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    final controller = useAnimationController(duration: Duration(seconds: 2));
+    
+    useEffect(() {
+      Future.microtask(() => controller.repeat(reverse: true));
+    }, []);
+
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, value) => DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.lerp(Colors.amber, Colors.blue, controller.value)!,
+              Color.lerp(Colors.black, Colors.green, controller.value)!,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+      ),
+    );
+  }
 }
