@@ -13,6 +13,8 @@ class GameValues {
 
   static final center = Vector2.all(0.5);
 
+  static Vector2 positionFor(int index) => Vector2(transformCoordinate(xFor(index)), transformCoordinate(yFor(index)));
+
   static double transformCoordinate(int a) => (a + 0.5) / GameValues.dimension;
 
   static double closestPositionFor(double position) =>

@@ -1,9 +1,8 @@
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
+import 'package:game_15/game/game_values.dart';
 import 'package:vector_math/vector_math_64.dart';
-
-import 'game_values.dart';
 
 class _Position extends Equatable {
   final int x, y;
@@ -16,8 +15,8 @@ class _Position extends Equatable {
   bool isAdjacent(_Position other) => (x - other.x).abs() + (y - other.y).abs() == 1;
 }
 
-class EngineRandomizer {
-  const EngineRandomizer._();
+class GameRandomizer {
+  const GameRandomizer._();
 
   static List<Vector2> generatePositions({required int moves}) {
     final random = Random();

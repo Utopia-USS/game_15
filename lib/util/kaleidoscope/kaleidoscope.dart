@@ -52,7 +52,7 @@ class _RenderKaleidoscope extends RenderProxyBox {
 
   @override
   void dispose() {
-    _kaleidoscopeLayer.dispose();
+    _kaleidoscopeLayerHandle.layer = null;
     super.dispose();
   }
 
