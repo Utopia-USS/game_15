@@ -1,27 +1,24 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 
-import 'package:game_15/util/ui/engine_layer/fake_engine_layer.dart';
-
-class EngineLayerStorage {
+class KeyedEngineLayerStorage {
   final _layers = <ui.EngineLayer, List<ui.EngineLayer>>{};
   final _usedKeyLayers = <ui.EngineLayer>{};
   int _maxUsedIndex = -1;
 
-  T execute<T extends ui.EngineLayer>(int index, T? keyLayer, T Function(T? oldLayer) block) {
-    final effectiveKeyLayer = keyLayer != null && keyLayer is FakeEngineLayer ? keyLayer : FakeEngineLayer.create<T>();
-    _layers[effectiveKeyLayer] ??= [];
-    final layerList = _layers[effectiveKeyLayer]!;
-
-    if (layerList.length <= index) {
-      layerList.add(block(null));
+  T execute<T extends ui.EngineLayer>(int index, T keyLayer, T Function(T? oldLayer) block) {
+    final T resultLayer;
+    _layers[keyLayer] ??= [];
+    if (_layers[keyLayer]!.length <= index) {
+      resultLayer = block(null);
+      _layers[keyLayer]!.add(resultLayer);
     } else {
-      layerList[index] = block(layerList[index] as T);
+      resultLayer = block(_layers[keyLayer]![index] as T);
+      _layers[keyLayer]![index] = resultLayer;
     }
-
-    _usedKeyLayers.add(effectiveKeyLayer);
+    _usedKeyLayers.add(keyLayer);
     _maxUsedIndex = max(_maxUsedIndex, index);
-    return effectiveKeyLayer;
+    return resultLayer;
   }
 
   void disposeUnused() {
@@ -41,10 +38,10 @@ class EngineLayerStorage {
     _usedKeyLayers.clear();
     // remove layers from unused indexes
     final firstUnusedIndex = _maxUsedIndex + 1;
-    if(_layers.isNotEmpty && firstUnusedIndex < _layers[_layers.keys.first]!.length) {
-      for(final keyLayer in _layers.keys) {
+    if (_layers.isNotEmpty && firstUnusedIndex < _layers[_layers.keys.first]!.length) {
+      for (final keyLayer in _layers.keys) {
         final layersToRemove = _layers[keyLayer]!.skip(firstUnusedIndex);
-        for(final layer in layersToRemove) {
+        for (final layer in layersToRemove) {
           layer.dispose();
         }
         _layers[keyLayer]!.length = firstUnusedIndex;

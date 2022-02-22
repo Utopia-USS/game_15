@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:game_15/game/game_model.dart';
+import 'package:game_15/game/model/game_model.dart';
 import 'package:game_15/game/game_values.dart';
 import 'package:game_15/game/state/game_state.dart';
 import 'package:game_15/util/kaleidoscope/kaleidoscope.dart';

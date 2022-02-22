@@ -1,7 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/rendering.dart';
-import 'package:game_15/util/ui/engine_layer/engine_layer_storage.dart';
+import 'package:game_15/util/ui/engine_layer/keyed_engine_layer_storage.dart';
 import 'package:game_15/util/ui/scene_builder/scene_builder_with_storage.dart';
 
 import 'kaleidoscope_delegate.dart';
@@ -16,7 +16,7 @@ class KaleidoscopeLayer extends ContainerLayer {
     markNeedsAddToScene();
   }
 
-  final _storage = EngineLayerStorage();
+  final _storage = KeyedEngineLayerStorage();
 
   @override
   void dispose() {
@@ -36,7 +36,11 @@ class KaleidoscopeLayer extends ContainerLayer {
         ..pushOffset(shard.offset.dx, shard.offset.dy);
 
       _recursivelyMarkNeedsAddToScene(firstChild!);
-      firstChild!.addToScene(SceneBuilderWithStorage(builder, storage: _storage, index: index));
+
+      final effectiveBuilder =
+          index == 0 ? builder : SceneBuilderWithStorage(builder, storage: _storage, index: index - 1);
+
+      firstChild!.addToScene(effectiveBuilder);
 
       builder
         ..pop()

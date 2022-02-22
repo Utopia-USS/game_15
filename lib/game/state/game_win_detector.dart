@@ -1,4 +1,4 @@
-import 'package:game_15/game/game_model.dart';
+import 'package:game_15/game/model/game_model.dart';
 import 'package:game_15/game/game_values.dart';
 
 class GameWinDetector {

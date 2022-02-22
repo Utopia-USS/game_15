@@ -2,23 +2,23 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/rendering.dart';
-import 'package:game_15/util/ui/engine_layer/engine_layer_storage.dart';
+import 'package:game_15/util/ui/engine_layer/keyed_engine_layer_storage.dart';
 
 import 'impl/scene_builder_with_storage_impl.dart' if (dart.library.js) 'impl/scene_builder_with_storage_impl.web.dart';
 
 abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   final ui.SceneBuilder delegate;
-  final EngineLayerStorage storage;
+  final KeyedEngineLayerStorage storage;
   final int index;
 
   const SceneBuilderWithStorage.base(this.delegate, {required this.storage, required this.index});
 
-  factory SceneBuilderWithStorage(ui.SceneBuilder delegate, {required EngineLayerStorage storage, required int index}) =
+  factory SceneBuilderWithStorage(ui.SceneBuilder delegate, {required KeyedEngineLayerStorage storage, required int index}) =
       SceneBuilderWithStorageImpl;
 
   @override
   ui.TransformEngineLayer pushTransform(Float64List matrix4, {ui.TransformEngineLayer? oldLayer}) =>
-      storage.execute(index, oldLayer, (oldLayer) => delegate.pushTransform(matrix4, oldLayer: oldLayer));
+      storage.execute(index, oldLayer!, (oldLayer) => delegate.pushTransform(matrix4, oldLayer: oldLayer));
 
   @override
   ui.PhysicalShapeEngineLayer pushPhysicalShape({
@@ -31,7 +31,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer,
+      oldLayer!,
       (oldLayer) => delegate.pushPhysicalShape(
         path: path,
         elevation: elevation,
@@ -53,7 +53,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer,
+      oldLayer!,
       (oldLayer) => delegate.pushShaderMask(
         shader,
         maskRect,
@@ -72,24 +72,24 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer,
+      oldLayer!,
       (oldLayer) => delegate.pushBackdropFilter(filter, blendMode: blendMode, oldLayer: oldLayer),
     );
   }
 
   @override
   ui.ImageFilterEngineLayer pushImageFilter(ui.ImageFilter filter, {ui.ImageFilterEngineLayer? oldLayer}) =>
-      storage.execute(index, oldLayer, (oldLayer) => delegate.pushImageFilter(filter, oldLayer: oldLayer));
+      storage.execute(index, oldLayer!, (oldLayer) => delegate.pushImageFilter(filter, oldLayer: oldLayer));
 
   @override
   ui.ColorFilterEngineLayer pushColorFilter(ColorFilter filter, {ui.ColorFilterEngineLayer? oldLayer}) =>
-      storage.execute(index, oldLayer, (oldLayer) => delegate.pushColorFilter(filter, oldLayer: oldLayer));
+      storage.execute(index, oldLayer!, (oldLayer) => delegate.pushColorFilter(filter, oldLayer: oldLayer));
 
   @override
   ui.OpacityEngineLayer pushOpacity(int alpha, {Offset? offset = Offset.zero, ui.OpacityEngineLayer? oldLayer}) =>
       storage.execute(
         index,
-        oldLayer,
+        oldLayer!,
         (oldLayer) => delegate.pushOpacity(alpha, offset: offset ?? Offset.zero, oldLayer: oldLayer),
       );
 
@@ -101,7 +101,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer,
+      oldLayer!,
       (oldLayer) => delegate.pushClipPath(path, clipBehavior: clipBehavior, oldLayer: oldLayer),
     );
   }
@@ -114,7 +114,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer,
+      oldLayer!,
       (oldLayer) => delegate.pushClipRRect(rrect, clipBehavior: clipBehavior, oldLayer: oldLayer),
     );
   }
@@ -127,14 +127,14 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer,
+      oldLayer!,
       (oldLayer) => delegate.pushClipRect(rect, clipBehavior: clipBehavior, oldLayer: oldLayer),
     );
   }
 
   @override
   ui.OffsetEngineLayer pushOffset(double dx, double dy, {ui.OffsetEngineLayer? oldLayer}) =>
-      storage.execute(index, oldLayer, (oldLayer) => delegate.pushOffset(dx, dy, oldLayer: oldLayer));
+      storage.execute(index, oldLayer!, (oldLayer) => delegate.pushOffset(dx, dy, oldLayer: oldLayer));
 
   @override
   void addPerformanceOverlay(int enabledOptions, ui.Rect bounds) =>

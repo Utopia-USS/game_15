@@ -64,6 +64,7 @@ class GameScreenView extends HookWidget {
       return _buildGameChild();
     } else {
       return Game(
+        controller: state.gameController,
         config: _buildConfig(),
         child: _buildGameChild(),
       );
@@ -95,7 +96,9 @@ class GameScreenView extends HookWidget {
 
   GameConfig _buildConfig() {
     return GameConfig(
-      moves: 5,
+      moves: 3,
+      initialAnimationDuration: const Duration(seconds: 2),
+      initialAnimationCurve: Curves.elasticOut,
       decoration: BoxDecoration(
         color: _getColorTheme().accent,
         boxShadow: kElevationToShadow[3],
@@ -110,7 +113,6 @@ class GameScreenView extends HookWidget {
         ),
         borderRadius: BorderRadius.circular(20),
       ),
-      onWon: state.onWon,
     );
   }
 }
