@@ -5,7 +5,7 @@ import 'package:game_15/widgets/ripple/state/ripple_state.dart';
 import 'package:game_15/widgets/ripple/view/ripple_view.dart';
 
 class RippleWidget extends HookWidget {
-  const RippleWidget({required GlobalKey key}) : super(key: key);
+  const RippleWidget({Key? key}) : super(key: key);
 
   static final color = ItemColor.orange;
 

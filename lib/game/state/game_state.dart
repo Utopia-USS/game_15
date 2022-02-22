@@ -12,9 +12,12 @@ import 'package:game_15/game/state/game_randomizer.dart';
 import 'package:game_15/game/state/game_win_detector.dart';
 import 'package:vector_math/vector_math_64.dart';
 
+enum _Stage { notStarted, inProgress, won }
+
 class GameState {
   final GameConfig config;
   final ValueListenable<GameModel> model;
+  final bool isWon;
 
   final Function(Vector2) onPanStart;
   final Function(Vector2) onPanUpdate;
@@ -23,6 +26,7 @@ class GameState {
   const GameState({
     required this.config,
     required this.model,
+    required this.isWon,
     required this.onPanStart,
     required this.onPanUpdate,
     required this.onPanEnd,
@@ -36,7 +40,7 @@ GameState useGameState({required GameConfig config, required GameController cont
   final animationTickerProvider = useSingleTickerProvider();
   final engineTickerProvider = useSingleTickerProvider();
 
-  final hasStartedState = useState(false);
+  final stageState = useState(_Stage.notStarted);
   final wonCompleter = useMemoized(() => Completer<void>());
 
   GameModelTween buildModelTween() =>
@@ -55,8 +59,9 @@ GameState useGameState({required GameConfig config, required GameController cont
 
   Future<void> start() async {
     await animateToInitialPositions();
-    hasStartedState.value = true;
+    stageState.value = _Stage.inProgress;
     await wonCompleter.future;
+    stageState.value = _Stage.won;
   }
 
   useEffect(() {
@@ -73,16 +78,18 @@ GameState useGameState({required GameConfig config, required GameController cont
   }
 
   useEffect(() {
-    if (hasStartedState.value) {
+    if (stageState.value == _Stage.inProgress) {
       final ticker = engineTickerProvider.createTicker(update);
       ticker.start();
       return ticker.dispose;
     }
-  }, [hasStartedState.value]);
+    return null;
+  }, [stageState.value == _Stage.inProgress]);
 
   return GameState(
     config: config,
     model: model,
+    isWon: stageState.value == _Stage.won,
     onPanStart: engine.onPanStart,
     onPanUpdate: engine.onPanUpdate,
     onPanEnd: engine.onPanEnd,

@@ -1,22 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:game_15/game/model/game_model.dart';
 import 'package:game_15/game/game_values.dart';
+import 'package:game_15/game/model/game_model.dart';
 import 'package:game_15/game/state/game_state.dart';
 import 'package:game_15/util/kaleidoscope/kaleidoscope.dart';
 import 'package:game_15/util/kaleidoscope/kaleidoscope_delegate.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
 import 'package:game_15/util/widget/decoration_clipper.dart';
+import 'package:utopia_hooks/utopia_hooks.dart';
 import 'package:vector_math/vector_math_64.dart';
 
-class GameView extends StatelessWidget {
+class GameView extends HookWidget {
   final GameState state;
   final Widget child;
 
   const GameView({Key? key, required this.state, required this.child}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => state.isWon ? _buildWon() : _buildNotWon(context);
+
+  Widget _buildNotWon(BuildContext context) {
     return _buildGestureDetector(
       context,
       child: Flow(
@@ -26,13 +29,17 @@ class GameView extends StatelessWidget {
           _buildDecoration(
             child: Kaleidoscope(
               delegate: _KaleidoscopeDelegate(state.model),
-              child: child,
+              child: _buildKeyedChild(),
             ),
-          )
+          ),
         ],
       ),
     );
   }
+
+  Widget _buildWon() => _buildDecoration(child: _buildKeyedChild());
+
+  Widget _buildKeyedChild() => KeyedSubtree(key: useMemoized(GlobalKey.new), child: child);
 
   Widget _buildGestureDetector(BuildContext context, {required Widget child}) {
     return GestureDetector(
@@ -48,7 +55,8 @@ class GameView extends StatelessWidget {
     return Stack(
       fit: StackFit.passthrough,
       children: [
-        if (state.config.decoration != null) Container(padding: const EdgeInsets.all(1), decoration: state.config.decoration!),
+        if (state.config.decoration != null)
+          Container(padding: const EdgeInsets.all(1), decoration: state.config.decoration!),
         Padding(
           padding: const EdgeInsets.all(1),
           child: ClipPath(
@@ -57,7 +65,8 @@ class GameView extends StatelessWidget {
             child: child,
           ),
         ),
-        if (state.config.foregroundDecoration != null) DecoratedBox(decoration: state.config.foregroundDecoration!),
+        if (state.config.foregroundDecoration != null)
+          IgnorePointer(child: DecoratedBox(decoration: state.config.foregroundDecoration!)),
       ],
     );
   }

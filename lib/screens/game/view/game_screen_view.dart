@@ -60,15 +60,11 @@ class GameScreenView extends HookWidget {
   }
 
   Widget _buildGame() {
-    if (state.isWon) {
-      return _buildGameChild();
-    } else {
       return Game(
         controller: state.gameController,
         config: _buildConfig(),
         child: _buildGameChild(),
       );
-    }
   }
 
   ItemColor _getColorTheme() {
@@ -83,14 +79,13 @@ class GameScreenView extends HookWidget {
   }
 
   Widget _buildGameChild() {
-    final key = useMemoized(() => GlobalKey());
     switch (state.type) {
       case GameType.color_picker:
-        return ColorPicker(key: key);
+        return const ColorPicker();
       case GameType.menu:
-        return DrawerWidget(key: key);
+        return const DrawerWidget();
       case GameType.ripple:
-        return RippleWidget(key: key);
+        return const RippleWidget();
     }
   }
 

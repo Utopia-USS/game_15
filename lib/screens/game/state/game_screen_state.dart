@@ -27,6 +27,7 @@ GameScreenState useGameScreenState({required void Function() navigateToMenu}) {
   
   useEffect(() {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(seconds: 3));
       await gameController.perform?.call();
       isWonState.value = true;
     });
