@@ -37,10 +37,7 @@ class KaleidoscopeLayer extends ContainerLayer {
 
       _recursivelyMarkNeedsAddToScene(firstChild!);
 
-      final effectiveBuilder =
-          index == 0 ? builder : SceneBuilderWithStorage(builder, storage: _storage, index: index - 1);
-
-      firstChild!.addToScene(effectiveBuilder);
+      firstChild!.addToScene(SceneBuilderWithStorage(builder, storage: _storage, index: index));
 
       builder
         ..pop()

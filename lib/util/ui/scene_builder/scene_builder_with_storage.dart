@@ -31,7 +31,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer!,
+      oldLayer,
       (oldLayer) => delegate.pushPhysicalShape(
         path: path,
         elevation: elevation,
@@ -53,7 +53,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer!,
+      oldLayer,
       (oldLayer) => delegate.pushShaderMask(
         shader,
         maskRect,
@@ -72,7 +72,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer!,
+      oldLayer,
       (oldLayer) => delegate.pushBackdropFilter(filter, blendMode: blendMode, oldLayer: oldLayer),
     );
   }
@@ -89,7 +89,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   ui.OpacityEngineLayer pushOpacity(int alpha, {Offset? offset = Offset.zero, ui.OpacityEngineLayer? oldLayer}) =>
       storage.execute(
         index,
-        oldLayer!,
+        oldLayer,
         (oldLayer) => delegate.pushOpacity(alpha, offset: offset ?? Offset.zero, oldLayer: oldLayer),
       );
 
@@ -101,7 +101,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer!,
+      oldLayer,
       (oldLayer) => delegate.pushClipPath(path, clipBehavior: clipBehavior, oldLayer: oldLayer),
     );
   }
@@ -114,7 +114,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer!,
+      oldLayer,
       (oldLayer) => delegate.pushClipRRect(rrect, clipBehavior: clipBehavior, oldLayer: oldLayer),
     );
   }
@@ -127,14 +127,14 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
   }) {
     return storage.execute(
       index,
-      oldLayer!,
+      oldLayer,
       (oldLayer) => delegate.pushClipRect(rect, clipBehavior: clipBehavior, oldLayer: oldLayer),
     );
   }
 
   @override
   ui.OffsetEngineLayer pushOffset(double dx, double dy, {ui.OffsetEngineLayer? oldLayer}) =>
-      storage.execute(index, oldLayer!, (oldLayer) => delegate.pushOffset(dx, dy, oldLayer: oldLayer));
+      storage.execute(index, oldLayer, (oldLayer) => delegate.pushOffset(dx, dy, oldLayer: oldLayer));
 
   @override
   void addPerformanceOverlay(int enabledOptions, ui.Rect bounds) =>

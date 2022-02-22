@@ -1,24 +1,27 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:game_15/util/ui/engine_layer/fake_engine_layer.dart';
+
 class KeyedEngineLayerStorage {
   final _layers = <ui.EngineLayer, List<ui.EngineLayer>>{};
   final _usedKeyLayers = <ui.EngineLayer>{};
   int _maxUsedIndex = -1;
 
-  T execute<T extends ui.EngineLayer>(int index, T keyLayer, T Function(T? oldLayer) block) {
-    final T resultLayer;
-    _layers[keyLayer] ??= [];
-    if (_layers[keyLayer]!.length <= index) {
-      resultLayer = block(null);
-      _layers[keyLayer]!.add(resultLayer);
+  T execute<T extends ui.EngineLayer>(int index, T? keyLayer, T Function(T? oldLayer) block) {
+    final effectiveKeyLayer = keyLayer != null && keyLayer is FakeEngineLayer ? keyLayer : FakeEngineLayer.create<T>();
+    _layers[effectiveKeyLayer] ??= [];
+    final layerList = _layers[effectiveKeyLayer]!;
+
+    if (layerList.length <= index) {
+      layerList.add(block(null));
     } else {
-      resultLayer = block(_layers[keyLayer]![index] as T);
-      _layers[keyLayer]![index] = resultLayer;
+      layerList[index] = block(layerList[index] as T);
     }
-    _usedKeyLayers.add(keyLayer);
+
+    _usedKeyLayers.add(effectiveKeyLayer);
     _maxUsedIndex = max(_maxUsedIndex, index);
-    return resultLayer;
+    return effectiveKeyLayer;
   }
 
   void disposeUnused() {
