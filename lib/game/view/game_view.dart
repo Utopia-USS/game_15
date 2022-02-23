@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -22,36 +20,32 @@ class GameView extends HookWidget {
   const GameView({Key? key, required this.state, required this.child}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => state.isWon ? _buildWon() : _buildNotWon(context);
-
-  Widget _buildNotWon(BuildContext context) {
+  Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.passthrough,
       children: [
         Flow(
           clipBehavior: Clip.none,
           delegate: _FlowDelegate(state.model),
-          children: [
-            _buildDecoration(
-              child: Kaleidoscope(
-                delegate: _KaleidoscopeDelegate(state.model),
-                child: _buildKeyedChild(),
-              ),
-            ),
-          ],
+          children: [_buildDecoration(child: _buildKaleidoscope())],
         ),
-        _buildGestureDetector(context),
+        if (!state.isWon) _buildGestureDetector(context),
       ],
     );
   }
 
-  Widget _buildWon() => _buildDecoration(child: _buildKeyedChild());
-
-  Widget _buildKeyedChild() => KeyedSubtree(key: useMemoized(GlobalKey.new), child: child);
+  Widget _buildKaleidoscope() {
+    return Kaleidoscope(
+      key: useMemoized(GlobalKey.new),
+      delegate: state.isWon ? const _WonKaleidoscopeDelegate() : _KaleidoscopeDelegate(state.model),
+      child: child,
+    );
+  }
 
   Widget _buildGestureDetector(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
+      dragStartBehavior: DragStartBehavior.down,
       onVerticalDragStart: (details) => state.onPanStart(_transform(context, details.localPosition)),
       onVerticalDragUpdate: (details) => state.onPanUpdate(_transform(context, details.localPosition)),
       onVerticalDragEnd: (details) => state.onPanEnd(),
@@ -119,4 +113,18 @@ class _KaleidoscopeDelegate extends KaleidoscopeDelegate {
 
   @override
   bool shouldRepaint(_KaleidoscopeDelegate other) => other.model != model;
+}
+
+class _WonKaleidoscopeDelegate extends KaleidoscopeDelegate {
+  const _WonKaleidoscopeDelegate();
+
+  @override
+  int get shardCount => 1;
+
+  @override
+  KaleidoscopeShard getShard(Size size, int index) =>
+      KaleidoscopeShard.fromSrcDst(src: Offset.zero & size, dst: Offset.zero);
+
+  @override
+  bool shouldRepaint(_WonKaleidoscopeDelegate other) => false;
 }

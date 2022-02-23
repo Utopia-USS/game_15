@@ -82,6 +82,6 @@ class _RenderKaleidoscope extends RenderProxyBox {
     final shardCount = _delegate.shardCount;
     final layerModel = [for (int index = 0; index < shardCount; index++) _delegate.getShard(size, index)];
     _kaleidoscopeLayer.model = layerModel;
-    context.pushLayer(_kaleidoscopeLayer, child!.paint, offset);
+    context.pushLayer(_kaleidoscopeLayer, super.paint, offset);
   }
 }

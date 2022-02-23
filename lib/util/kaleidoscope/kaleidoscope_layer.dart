@@ -23,8 +23,6 @@ class KaleidoscopeLayer extends ContainerLayer {
     super.dispose();
   }
 
-  final _layers = <ui.EngineLayer?>[null, null];
-
   // TODO retain layers
   // TODO support retained rendering
   @override
@@ -33,11 +31,8 @@ class KaleidoscopeLayer extends ContainerLayer {
     for (int index = 0; index < _model!.length; index++) {
       final builderWithStorage = SceneBuilderWithStorage(builder, storage: _storage, index: index);
       final shard = _model![index];
-      _layers[0] = builderWithStorage.pushTransform(
-        shard.transform.storage,
-        oldLayer: _layers[0] as ui.TransformEngineLayer?,
-      );
-      _layers[1] = shard.clip.push(builderWithStorage, oldLayer: _layers[1]);
+      builderWithStorage.pushTransform(shard.transform.storage);
+      shard.clip.push(builderWithStorage);
 
       _recursivelyMarkNeedsAddToScene(firstChild!);
 
