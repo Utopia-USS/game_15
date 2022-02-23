@@ -18,7 +18,7 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
 
   @override
   ui.TransformEngineLayer pushTransform(Float64List matrix4, {ui.TransformEngineLayer? oldLayer}) =>
-      storage.execute(index, oldLayer!, (oldLayer) => delegate.pushTransform(matrix4, oldLayer: oldLayer));
+      storage.execute(index, oldLayer, (oldLayer) => delegate.pushTransform(matrix4, oldLayer: oldLayer));
 
   @override
   ui.PhysicalShapeEngineLayer pushPhysicalShape({
@@ -79,11 +79,11 @@ abstract class SceneBuilderWithStorage implements ui.SceneBuilder {
 
   @override
   ui.ImageFilterEngineLayer pushImageFilter(ui.ImageFilter filter, {ui.ImageFilterEngineLayer? oldLayer}) =>
-      storage.execute(index, oldLayer!, (oldLayer) => delegate.pushImageFilter(filter, oldLayer: oldLayer));
+      storage.execute(index, oldLayer, (oldLayer) => delegate.pushImageFilter(filter, oldLayer: oldLayer));
 
   @override
   ui.ColorFilterEngineLayer pushColorFilter(ColorFilter filter, {ui.ColorFilterEngineLayer? oldLayer}) =>
-      storage.execute(index, oldLayer!, (oldLayer) => delegate.pushColorFilter(filter, oldLayer: oldLayer));
+      storage.execute(index, oldLayer, (oldLayer) => delegate.pushColorFilter(filter, oldLayer: oldLayer));
 
   @override
   ui.OpacityEngineLayer pushOpacity(int alpha, {Offset? offset = Offset.zero, ui.OpacityEngineLayer? oldLayer}) =>

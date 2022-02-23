@@ -6,14 +6,12 @@ class SingleRipple extends StatelessWidget {
   final double width;
   final double radius;
   final Widget child;
-  final Offset Function(Offset)? globalToLocalOffset;
 
   const SingleRipple({
     Key? key,
     required this.radius,
     required this.child,
     required this.center,
-    required this.globalToLocalOffset,
     this.width = 18,
   }) :  assert(width >= 10),
         super(key: key);
@@ -22,24 +20,21 @@ class SingleRipple extends StatelessWidget {
   Widget build(BuildContext context) {
     final layerNum = (width / 2).ceil();
     final internalRadius = radius - width;
-    final localOffset = globalToLocalOffset != null ? globalToLocalOffset!(center) : null;
-    return localOffset != null
-        ? Stack(
+    return Stack(
       children: <Widget>[
         child,
         for(int i in Iterable<int>.generate(layerNum))
-          _getLayer(i, layerNum, child, localOffset),
+          _getLayer(i, layerNum, child, center),
         ClipPath(
           clipper: CircleClip(
-            center: localOffset,
+            center: center,
             radius: internalRadius,
           ),
           child: child,
           clipBehavior: Clip.hardEdge,
         ),
       ],
-    )
-        : child;
+    );
   }
 
   Widget _getLayer(int i, int layerNum, Widget child, Offset center) {

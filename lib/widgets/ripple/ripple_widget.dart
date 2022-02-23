@@ -9,10 +9,9 @@ class RippleWidget extends HookWidget {
 
   static final color = ItemColor.orange;
 
-
   @override
   Widget build(BuildContext context) {
-    final state = useRippleState(widgetKey: key as GlobalKey);
+    final state = useRippleState();
     return RippleView(state: state);
   }
 }

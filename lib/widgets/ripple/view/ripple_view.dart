@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:game_15/const/app_text.dart';
+import 'package:game_15/util/kaleidoscope/kaleidoscope_delegate.dart';
+import 'package:game_15/util/kaleidoscope/kaleidoscope_shard.dart';
 import 'package:game_15/widgets/ripple/state/ripple_state.dart';
 import 'package:game_15/widgets/ripple/widgets/single_ripple.dart';
 
@@ -16,11 +18,10 @@ class RippleView extends StatelessWidget {
     return Material(
       child: AnimatedBuilder(
         animation: state.animationController,
-        builder: (context, animation) {
+        builder: (context, _) {
           return SingleRipple(
             center: Offset(100,200),
-            radius: 100,
-            globalToLocalOffset: state.globalToLocalOffset,
+            radius: state.animationController.value,
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
@@ -71,4 +72,24 @@ class RippleView extends StatelessWidget {
       ),
     );
   }
+}
+
+class _RippleKaleidoscopeDelegate extends KaleidoscopeDelegate {
+
+  @override
+  KaleidoscopeShard getShard(Size size, int index) {
+    // TODO: implement getShard
+    throw UnimplementedError();
+  }
+
+  @override
+  // TODO: implement shardCount
+  int get shardCount => throw UnimplementedError();
+
+  @override
+  bool shouldRepaint(covariant KaleidoscopeDelegate other) {
+    // TODO: implement shouldRepaint
+    throw UnimplementedError();
+  }
+
 }

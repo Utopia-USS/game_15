@@ -7,19 +7,15 @@ class RippleState {
   final AnimationController animationController;
   final double animation;
   final void Function() triggerAnimation;
-  final Offset Function(Offset)? globalToLocalOffset;
 
   const RippleState({
     required this.animation,
     required this.animationController,
     required this.triggerAnimation,
-    required this.globalToLocalOffset,
   });
 }
 
-RippleState useRippleState({
-  required GlobalKey widgetKey,
-}) {
+RippleState useRippleState() {
   final animationController = useAnimationController(duration: const Duration(milliseconds: 300));
   final animation = useAnimation(CurvedAnimation(parent: animationController, curve: Curves.easeInCubic));
 
@@ -31,6 +27,5 @@ RippleState useRippleState({
     animationController: animationController,
     animation: animation,
     triggerAnimation: triggerAnimation,
-    globalToLocalOffset: (widgetKey.currentContext?.findRenderObject() as RenderBox?)?.globalToLocal,
   );
 }

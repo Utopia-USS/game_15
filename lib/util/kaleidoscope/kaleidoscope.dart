@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
-
-import 'kaleidoscope_delegate.dart';
-import 'kaleidoscope_layer.dart';
+import 'package:game_15/util/kaleidoscope/kaleidoscope_delegate.dart';
+import 'package:game_15/util/kaleidoscope/kaleidoscope_layer.dart';
 
 class Kaleidoscope extends SingleChildRenderObjectWidget {
   final KaleidoscopeDelegate delegate;
@@ -19,10 +18,11 @@ class Kaleidoscope extends SingleChildRenderObjectWidget {
   }
 }
 
+// TODO cache shards' model
 class _RenderKaleidoscope extends RenderProxyBox {
   KaleidoscopeDelegate _delegate;
 
-  _RenderKaleidoscope(this._delegate) : super();
+  _RenderKaleidoscope(this._delegate);
 
   final _kaleidoscopeLayerHandle = LayerHandle(KaleidoscopeLayer());
 
@@ -63,15 +63,25 @@ class _RenderKaleidoscope extends RenderProxyBox {
   bool get alwaysNeedsCompositing => true;
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) => false;
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
+    final shardCount = _delegate.shardCount;
+    for (int index = 0; index < shardCount; index++) {
+      final shard = _delegate.getShard(size, index);
+      final absorbed = result.addWithPaintTransform(
+        transform: shard.transform,
+        position: position,
+        hitTest: (result, position) => shard.clip.contains(position) && child!.hitTest(result, position: position),
+      );
+      if (absorbed) return true;
+    }
+    return false;
+  }
 
   @override
   void paint(PaintingContext context, Offset offset) {
     final shardCount = _delegate.shardCount;
-    final layerModel = [
-      for (int index = 0; index < shardCount; index++) _delegate.getShard(size, index).translate(offset),
-    ];
+    final layerModel = [for (int index = 0; index < shardCount; index++) _delegate.getShard(size, index)];
     _kaleidoscopeLayer.model = layerModel;
-    context.pushLayer(_kaleidoscopeLayer, super.paint, offset);
+    context.pushLayer(_kaleidoscopeLayer, child!.paint, offset);
   }
 }

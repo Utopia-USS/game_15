@@ -1,10 +1,9 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/rendering.dart';
+import 'package:game_15/util/kaleidoscope/kaleidoscope_shard.dart';
 import 'package:game_15/util/ui/engine_layer/keyed_engine_layer_storage.dart';
 import 'package:game_15/util/ui/scene_builder/scene_builder_with_storage.dart';
-
-import 'kaleidoscope_delegate.dart';
 
 typedef KaleidoscopeLayerModel = List<KaleidoscopeShard>;
 
@@ -24,22 +23,27 @@ class KaleidoscopeLayer extends ContainerLayer {
     super.dispose();
   }
 
-  // TODO retain clip and offset layers
+  final _layers = <ui.EngineLayer?>[null, null];
+
+  // TODO retain layers
   // TODO support retained rendering
   @override
   void addToScene(ui.SceneBuilder builder) {
     if (_model == null || firstChild == null) return;
     for (int index = 0; index < _model!.length; index++) {
+      final builderWithStorage = SceneBuilderWithStorage(builder, storage: _storage, index: index);
       final shard = _model![index];
-      builder
-        ..pushClipRect(shard.clip)
-        ..pushOffset(shard.offset.dx, shard.offset.dy);
+      _layers[0] = builderWithStorage.pushTransform(
+        shard.transform.storage,
+        oldLayer: _layers[0] as ui.TransformEngineLayer?,
+      );
+      _layers[1] = shard.clip.push(builderWithStorage, oldLayer: _layers[1]);
 
       _recursivelyMarkNeedsAddToScene(firstChild!);
 
-      firstChild!.addToScene(SceneBuilderWithStorage(builder, storage: _storage, index: index));
+      firstChild!.addToScene(builderWithStorage);
 
-      builder
+      builderWithStorage
         ..pop()
         ..pop();
     }

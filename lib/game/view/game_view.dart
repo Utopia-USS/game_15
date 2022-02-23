@@ -1,14 +1,19 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:game_15/game/game_values.dart';
 import 'package:game_15/game/model/game_model.dart';
 import 'package:game_15/game/state/game_state.dart';
 import 'package:game_15/util/kaleidoscope/kaleidoscope.dart';
 import 'package:game_15/util/kaleidoscope/kaleidoscope_delegate.dart';
+import 'package:game_15/util/kaleidoscope/kaleidoscope_shard.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
 import 'package:game_15/util/widget/decoration_clipper.dart';
 import 'package:utopia_hooks/utopia_hooks.dart';
-import 'package:vector_math/vector_math_64.dart';
+import 'package:vector_math/vector_math_64.dart' hide Colors;
 
 class GameView extends HookWidget {
   final GameState state;
@@ -20,20 +25,23 @@ class GameView extends HookWidget {
   Widget build(BuildContext context) => state.isWon ? _buildWon() : _buildNotWon(context);
 
   Widget _buildNotWon(BuildContext context) {
-    return _buildGestureDetector(
-      context,
-      child: Flow(
-        clipBehavior: Clip.none,
-        delegate: _FlowDelegate(state.model),
-        children: [
-          _buildDecoration(
-            child: Kaleidoscope(
-              delegate: _KaleidoscopeDelegate(state.model),
-              child: _buildKeyedChild(),
+    return Stack(
+      fit: StackFit.passthrough,
+      children: [
+        Flow(
+          clipBehavior: Clip.none,
+          delegate: _FlowDelegate(state.model),
+          children: [
+            _buildDecoration(
+              child: Kaleidoscope(
+                delegate: _KaleidoscopeDelegate(state.model),
+                child: _buildKeyedChild(),
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+        _buildGestureDetector(context),
+      ],
     );
   }
 
@@ -41,13 +49,15 @@ class GameView extends HookWidget {
 
   Widget _buildKeyedChild() => KeyedSubtree(key: useMemoized(GlobalKey.new), child: child);
 
-  Widget _buildGestureDetector(BuildContext context, {required Widget child}) {
+  Widget _buildGestureDetector(BuildContext context) {
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onPanStart: (details) => state.onPanStart(_transform(context, details.localPosition)),
-      onPanUpdate: (details) => state.onPanUpdate(_transform(context, details.localPosition)),
-      onPanEnd: (details) => state.onPanEnd(),
-      child: child,
+      behavior: HitTestBehavior.translucent,
+      onVerticalDragStart: (details) => state.onPanStart(_transform(context, details.localPosition)),
+      onVerticalDragUpdate: (details) => state.onPanUpdate(_transform(context, details.localPosition)),
+      onVerticalDragEnd: (details) => state.onPanEnd(),
+      onHorizontalDragStart: (details) => state.onPanStart(_transform(context, details.localPosition)),
+      onHorizontalDragUpdate: (details) => state.onPanUpdate(_transform(context, details.localPosition)),
+      onHorizontalDragEnd: (details) => state.onPanEnd(),
     );
   }
 
@@ -101,7 +111,7 @@ class _KaleidoscopeDelegate extends KaleidoscopeDelegate {
   @override
   KaleidoscopeShard getShard(Size size, int index) {
     final position = GameValues.positionFor(index);
-    return KaleidoscopeShard(
+    return KaleidoscopeShard.fromSrcDst(
       src: position.aabbAround(GameValues.halfChildExtent).toRect(size),
       dst: (model.value.positions[index] - GameValues.halfChildExtent).toOffset(size),
     );
