@@ -16,31 +16,36 @@ class DrawerView extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = DrawerWidget.color;
     return Material(
-      child: AnimatedBuilder(
-        animation: state.animationController,
-        builder: (context, animation) {
-          return Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [color.accent, color.primary],
+      child: LayoutBuilder(builder: (context, constraints) {
+        final size = constraints.maxHeight;
+        final slideValue = size / 1.75;
+        return AnimatedBuilder(
+          animation: state.animationController,
+          builder: (context, animation) {
+            return Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [color.accent, color.primary],
+                ),
               ),
-            ),
-            child: DrawerGestureWrapper(
-              animationController: state.animationController,
-              offsetController: state.offsetState,
-              child: Stack(
-                children: [
-                  DrawerContent(state: state),
-                  DrawerScreen(state: state),
-                ],
+              child: DrawerGestureWrapper(
+                animationController: state.animationController,
+                offsetController: state.offsetState,
+                slideValue: slideValue,
+                child: Stack(
+                  children: [
+                    DrawerContent(state: state, size: size),
+                    DrawerScreen(state: state, size: size, slideValue: slideValue),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          },
+        );
+      }),
     );
   }
 }

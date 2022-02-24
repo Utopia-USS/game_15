@@ -6,14 +6,18 @@ class DrawerGestureWrapper extends StatelessWidget {
   final ValueNotifier<double> offsetController;
   final AnimationController animationController;
   final Widget child;
+  final double slideValue;
 
-  const DrawerGestureWrapper(
-      {Key? key, required this.offsetController, required this.animationController, required this.child,})
-      : super(key: key);
+  const DrawerGestureWrapper({
+    Key? key,
+    required this.offsetController,
+    required this.animationController,
+    required this.child,
+    required this.slideValue,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const slideValue = DrawerWidget.slideValue;
     return GestureDetector(
       dragStartBehavior: DragStartBehavior.start,
       onTap: () => animationController.isDismissed ? animationController.forward() : animationController.reverse(),
