@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/const/app_text.dart';
 import 'package:game_15/screens/game/state/game_screen_state.dart';
+import 'package:game_15/screens/menu/menu_screen.dart';
 
 class MenuContent extends HookWidget {
   final Animation<double> animation;
@@ -71,8 +72,8 @@ class MenuContent extends HookWidget {
       top: 18,
       child: SafeArea(
         child: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Icon(Icons.close, color: Colors.white),
+          onTap: () => Navigator.pop(context, MenuScreenResult.none),
+          child: const Icon(Icons.close, color: Colors.white, size: 30),
         ),
       ),
     );

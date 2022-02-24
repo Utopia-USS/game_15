@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/model/item_color.dart';
+import 'package:game_15/screens/game/state/game_screen_state.dart';
+import 'package:utopia_hooks/utopia_hooks.dart';
 
 class ColorPickerState {
   final AnimationController animationController;
@@ -23,8 +25,9 @@ class ColorPickerState {
 }
 
 ColorPickerState useColorPickerState() {
-  final animationController = useAnimationController(duration: const Duration(milliseconds: 600));
-  final pageController = usePageController(initialPage: 1, viewportFraction: 0.5);
+  final animationController = useAnimationController(duration: const Duration(milliseconds: 700));
+  final pageController = usePageController(initialPage: 1, viewportFraction: 0.4);
+  final gameState = useProvided<GameScreenState>();
 
   final foregroundColorState = useState<ItemColor?>(null);
   final backgroundColorState = useState<ItemColor>(ItemColor.all[1]);
@@ -34,7 +37,7 @@ ColorPickerState useColorPickerState() {
   }
 
   Future<void> onItemPressed({required ItemColor color, required int index}) async {
-    if(foregroundColorState.value != color){
+    if (foregroundColorState.value != color) {
       foregroundColorState.value = color;
       animatePageView(index);
       await animationController.forward(from: 0.0);
@@ -42,6 +45,17 @@ ColorPickerState useColorPickerState() {
       backgroundColorState.value = color;
     }
   }
+
+  useSimpleEffect(() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await Future.delayed(gameState.initialDuration);
+      await onItemPressed(color: ItemColor.all[2], index: 2);
+      await Future.delayed(const Duration(milliseconds: 500));
+      await onItemPressed(color: ItemColor.all[1], index: 1);
+      await Future.delayed(const Duration(milliseconds: 500));
+      gameState.gameController.perform?.call();
+    });
+  }, []);
 
   return ColorPickerState(
     animationController: animationController,

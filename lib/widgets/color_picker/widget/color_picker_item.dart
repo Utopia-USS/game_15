@@ -23,7 +23,7 @@ class ColorPickerItem extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 1000),
         curve: Curves.bounceOut,
-        height: size,
+        height: size * 1.5,
         width: size,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(size / 12),

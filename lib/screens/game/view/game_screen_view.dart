@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:game_15/game/game.dart';
 import 'package:game_15/game/game_config.dart';
 import 'package:game_15/model/item_color.dart';
@@ -7,6 +8,7 @@ import 'package:game_15/screens/game/state/game_screen_state.dart';
 import 'package:game_15/widgets/color_picker/color_picker.dart';
 import 'package:game_15/widgets/drawer/drawer.dart';
 import 'package:game_15/widgets/ripple/ripple_widget.dart';
+import 'package:provider/provider.dart';
 
 class GameScreenView extends HookWidget {
   final GameScreenState state;
@@ -23,7 +25,7 @@ class GameScreenView extends HookWidget {
         elevation: 0,
         leading: GestureDetector(
           onTap: state.onMenuPressed,
-          child: Icon(Icons.menu, color: Colors.white),
+          child: const Icon(Icons.menu, color: Colors.white),
         ),
       ),
       body: Container(
@@ -47,11 +49,16 @@ class GameScreenView extends HookWidget {
       builder: (context, constraints) {
         final size = constraints.biggest.shortestSide * 0.8;
         return HookBuilder(
-          builder: (context) => Center(
-            child: SizedBox(
-              height: size,
-              width: size,
-              child: _buildGame(),
+          builder: (context) => Provider<GameScreenState>.value(
+            value: state,
+            child: Center(
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  _buildGame(size),
+                  if (state.isWon) _buildWinIcon(size),
+                ],
+              ),
             ),
           ),
         );
@@ -59,12 +66,32 @@ class GameScreenView extends HookWidget {
     );
   }
 
-  Widget _buildGame() {
-      return Game(
+  Widget _buildWinIcon(double size) {
+    final iconSize = size / 5;
+    return Positioned(
+      right: -iconSize / 3,
+      bottom: -iconSize / 3,
+      child: SvgPicture.asset(
+        "assets/win_icon.svg",
+        height: iconSize,
+        width: iconSize,
+      ),
+    );
+  }
+
+  Widget _buildGame(double size) {
+    return SizedBox(
+      height: size,
+      width: size,
+      child: Game(
+        key: ValueKey(state.type),
         controller: state.gameController,
-        config: _buildConfig(),
-        child: _buildGameChild(),
-      );
+        config: _buildConfig(size / 50),
+        child: ClipRect(
+          child: _buildGameChild(),
+        ),
+      ),
+    );
   }
 
   ItemColor _getColorTheme() {
@@ -78,31 +105,50 @@ class GameScreenView extends HookWidget {
     }
   }
 
-  Widget _buildGameChild() {
+  Color _getGameBackground() {
     switch (state.type) {
       case GameType.color_picker:
-        return const ColorPicker();
+        return Colors.grey.shade50;
       case GameType.menu:
-        return const DrawerWidget();
+        return Colors.grey.shade800;
       case GameType.ripple:
-        return const RippleWidget();
+        return ItemColor.orange.accent;
     }
   }
 
-  GameConfig _buildConfig() {
+  Widget _buildGameChild() {
+    final key = useMemoized<GlobalKey>(() => GlobalKey());
+    switch (state.type) {
+      case GameType.color_picker:
+        return ColorPicker(key: key);
+      case GameType.menu:
+        return DrawerWidget(key: key);
+      case GameType.ripple:
+        return RippleWidget(key: key);
+    }
+  }
+
+  GameConfig _buildConfig(double borderWidth) {
     return GameConfig(
-      moves: 3,
-      initialAnimationDuration: const Duration(seconds: 2),
+      moves: 20,
+      initialAnimationDuration: const Duration(milliseconds: 2500),
       initialAnimationCurve: Curves.elasticOut,
       decoration: BoxDecoration(
-        color: _getColorTheme().accent,
-        boxShadow: kElevationToShadow[3],
+        color: _getGameBackground(),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.20),
+            offset: const Offset(12, 12),
+            blurRadius: 20,
+            spreadRadius: 10,
+          )
+        ],
         borderRadius: BorderRadius.circular(20),
       ),
       foregroundDecoration: BoxDecoration(
         border: Border.fromBorderSide(
           BorderSide(
-            width: 2,
+            width: borderWidth,
             color: _getColorTheme().primary,
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:game_15/screens/game/state/game_screen_state.dart';
+import 'package:game_15/screens/menu/menu_screen.dart';
 import 'package:game_15/state/game_type_state.dart';
 import 'package:utopia_hooks/utopia_hooks.dart';
 
@@ -18,7 +19,7 @@ MenuScreenState useMenuScreenState() {
   return MenuScreenState(
     onTypeChanged: (type) {
       typeState.onTypeChanged(type);
-      Navigator.pop(context);
+      Navigator.pop(context, MenuScreenResult.game_changed);
     },
   );
 }

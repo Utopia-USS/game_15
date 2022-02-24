@@ -4,29 +4,31 @@ import 'package:game_15/screens/menu/state/menu_screen_state.dart';
 import 'package:game_15/screens/menu/view/menu_screen_view.dart';
 import 'package:provider/provider.dart';
 
-class MenuScreen extends HookWidget {
+enum MenuScreenResult { game_changed, none }
 
-  const MenuScreen( {Key? key}) : super(key: key);
+class MenuScreen extends HookWidget {
+  static const transitionDuration = Duration(milliseconds: 1500);
+
+  const MenuScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final state = useMenuScreenState();
     return MenuScreenView(state: state);
   }
 
-  static Future<void> show(BuildContext context) async {
-    Navigator.of(context).push(
+  static Future<MenuScreenResult> show(BuildContext context) async {
+    return await Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
         pageBuilder: (context, animation, secondaryAnimation) {
           return ListenableProvider(
             create: (context) => animation,
-            child: MenuScreen(),
+            child: const MenuScreen(),
           );
         },
-        transitionDuration: const Duration(milliseconds: 2000),
-        reverseTransitionDuration: const Duration(milliseconds: 1500),
+        transitionDuration: MenuScreen.transitionDuration,
+        reverseTransitionDuration: MenuScreen.transitionDuration,
       ),
     );
   }

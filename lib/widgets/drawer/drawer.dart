@@ -8,9 +8,6 @@ class DrawerWidget extends HookWidget {
   const DrawerWidget({Key? key}) : super(key: key);
 
   static final color = ItemColor.lavender;
-  static const slideValue = 225.0;
-  static const contentSlideValue = 100;
-
 
   @override
   Widget build(BuildContext context) {

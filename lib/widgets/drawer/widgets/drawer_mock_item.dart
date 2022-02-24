@@ -8,25 +8,28 @@ class DrawerMockItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double radius = 10;
     final color = DrawerWidget.color;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 36, 24, 8),
-      child: PhysicalModel(
-        color: Colors.transparent,
-        shadowColor: color.primary,
-        borderRadius: BorderRadius.circular(10),
-        elevation: 16,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            height: 200,
-            width: double.infinity,
-            decoration: BoxDecoration(
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 36, 24, 0),
+        child: PhysicalModel(
+          color: Colors.transparent,
+          shadowColor: color.primary,
+          borderRadius: BorderRadius.circular(radius),
+          elevation: 16,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(topRight: Radius.circular(radius), topLeft: Radius.circular(radius)),
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.centerRight,
-              end: Alignment.centerLeft,
-              colors: [color.accent, color.primary],
-            ),),
+                  end: Alignment.centerLeft,
+                  colors: [color.accent, color.primary],
+                ),
+              ),
+            ),
           ),
         ),
       ),

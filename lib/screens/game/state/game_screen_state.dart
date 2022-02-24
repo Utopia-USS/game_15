@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:game_15/game/game_controller.dart';
 import 'package:game_15/state/game_type_state.dart';
 import 'package:utopia_hooks/utopia_hooks.dart';
+
+import '../../menu/menu_screen.dart';
 
 enum GameType { color_picker, menu, ripple }
 
@@ -17,25 +18,24 @@ class GameScreenState {
     required this.isWon,
     required this.gameController,
   });
+
+  get initialDuration => const Duration(milliseconds: 300) + MenuScreen.transitionDuration;
 }
 
-GameScreenState useGameScreenState({required void Function() navigateToMenu}) {
+GameScreenState useGameScreenState({required Future<MenuScreenResult> Function() navigateToMenu}) {
   final typeState = useProvided<GameTypeState>();
   final isWonState = useState(false);
-  
-  final gameController = useMemoized(GameController.new);
-  
-  useEffect(() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(seconds: 3));
-      await gameController.perform?.call();
-      isWonState.value = true;
-    });
-  }, []);
+
+  final gameController = useMemoized(GameController.new, [typeState.type]);
+
+  onMenuPressed() async {
+    final result = await navigateToMenu();
+    if (result == MenuScreenResult.game_changed) isWonState.value = false;
+  }
 
   return GameScreenState(
     type: typeState.type,
-    onMenuPressed: navigateToMenu,
+    onMenuPressed: onMenuPressed,
     isWon: isWonState.value,
     gameController: gameController,
   );

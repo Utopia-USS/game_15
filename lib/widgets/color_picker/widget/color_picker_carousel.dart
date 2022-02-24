@@ -27,7 +27,7 @@ class ColorPickerCarousel extends HookWidget {
           return Center(
             child: ColorPickerItem(
               color: item,
-              size: isSelected ? smallerDimension / 3 : smallerDimension / 4,
+              size: isSelected ? smallerDimension / 2.5 : smallerDimension / 3.5,
               onPressed: () => state.onItemPressed(color: item, index: index),
             ),
           );

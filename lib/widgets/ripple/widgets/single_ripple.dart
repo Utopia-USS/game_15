@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:game_15/widgets/ripple/ripple_widget.dart';
 import 'package:game_15/widgets/ripple/widgets/ripple_circle_clip.dart';
 
 class SingleRipple extends StatelessWidget {
@@ -58,11 +59,11 @@ class SingleRipple extends StatelessWidget {
             ),
             Positioned.fill(
               child: Container(
-                color: i <= layerNum/2
-                    ? Color.fromRGBO(255, 0, 157, alphaCoef * (0.0 + i/layerNum * 2))
-                    : Color.fromRGBO(0, 0, 0, alphaCoef * (-1.0 + i/layerNum * 2)),
-              ),
-            ),
+            color: i <= layerNum / 2
+                ? RippleWidget.color.primary.withOpacity(alphaCoef * (0.0 + i / layerNum * 2))
+                : RippleWidget.color.primary.withOpacity(alphaCoef * (-1.0 + i / layerNum * 2)),
+          ),
+        ),
           ]
       ),
     );

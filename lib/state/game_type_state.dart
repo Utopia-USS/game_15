@@ -14,7 +14,7 @@ class GameTypeState {
 class GameTypeStateProvider extends HookStateProviderWidget<GameTypeState> {
   @override
   GameTypeState use() {
-    final typeState = useState<GameType>(GameType.menu);
+    final typeState = useState<GameType>(GameType.color_picker);
 
     return GameTypeState(
       type: typeState.value,

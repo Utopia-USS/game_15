@@ -11,7 +11,7 @@ class RippleWidget extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = useRippleState();
+    final state = useRippleState(widgetKey: key as GlobalKey);
     return RippleView(state: state);
   }
 }
