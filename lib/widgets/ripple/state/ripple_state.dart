@@ -8,7 +8,13 @@ import '../../../screens/game/state/game_screen_state.dart';
 class RippleState {
   final AnimationController animationController;
   final double animation;
-  final void Function(BuildContext context, TapDownDetails details) triggerAnimation;
+  final void Function({
+    required BuildContext context,
+    required TapDownDetails details,
+    required BoxConstraints constraints,
+    required int row,
+    required int column,
+  }) triggerAnimation;
   final Offset offset;
 
   const RippleState({
@@ -29,8 +35,18 @@ RippleState useRippleState({
 
   final globalToLocalOffset = (widgetKey.currentContext?.findRenderObject() as RenderBox?)?.globalToLocal;
 
-  void triggerAnimation(BuildContext context, TapDownDetails details) async {
-    offsetState.value = globalToLocalOffset!(details.globalPosition);
+  void triggerAnimation({
+    required BuildContext context,
+    required TapDownDetails details,
+    required BoxConstraints constraints,
+    required int row,
+    required int column,
+  }) async {
+    final squareSideLength = constraints.maxWidth / 4;
+    final noShuffleOffset = globalToLocalOffset!(details.globalPosition);
+    final squareLocalX = noShuffleOffset.dx % squareSideLength;
+    final squareLocalY = noShuffleOffset.dy % squareSideLength;
+    offsetState.value = Offset(row * squareSideLength + squareLocalX, column * squareSideLength + squareLocalY);
     await animationController.forward(from: 0.0);
     animationController.value = 0;
   }

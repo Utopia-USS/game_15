@@ -32,7 +32,7 @@ class RippleView extends StatelessWidget {
                     colors: [Colors.white, Colors.white70],
                   ),
                 ),
-                child: _buildContent(context),
+                child: _buildContent(context, constraints),
               ),
             );
           });
@@ -41,29 +41,35 @@ class RippleView extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent(BuildContext context, BoxConstraints constraints) {
     return Column(
       children: [
-        for (int i = 0; i < 4; i++) _buildRowSection(context),
+        for (int i = 0; i < 4; i++) _buildRowSection(context, constraints, i),
       ],
     );
   }
 
-  Widget _buildRowSection(BuildContext context) {
+  Widget _buildRowSection(BuildContext context, BoxConstraints constraints, int column) {
     return Expanded(
       child: Row(
         children: [
-          for (int i = 0; i < 4; i++) _buildItem(context),
+          for (int i = 0; i < 4; i++) _buildItem(context, constraints, i, column),
         ],
       ),
     );
   }
 
-  Widget _buildItem(BuildContext context) {
+  Widget _buildItem(BuildContext context, BoxConstraints constraints, int row, int column) {
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTapDown: (details) => state.triggerAnimation(context, details),
+        onTapDown: (details) => state.triggerAnimation(
+          context: context,
+          details: details,
+          constraints: constraints,
+          row: row,
+          column: column,
+        ),
         child: Center(
           child: Text(
             "Tap me",
