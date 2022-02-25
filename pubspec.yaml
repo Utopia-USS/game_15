@@ -18,7 +18,9 @@ dependencies:
   utopia_hooks: ^0.2.5+2
   flutter_svg: ^1.0.3
   equatable: ^2.0.3
-
+  camera: ^0.9.4+14
+  permission_handler: ^9.2.0
+  matrix_gesture_detector: ^0.2.0-nullsafety.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

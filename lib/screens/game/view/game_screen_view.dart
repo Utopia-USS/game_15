@@ -5,6 +5,7 @@ import 'package:game_15/game/game.dart';
 import 'package:game_15/game/game_config.dart';
 import 'package:game_15/model/item_color.dart';
 import 'package:game_15/screens/game/state/game_screen_state.dart';
+import 'package:game_15/widgets/camera/camera_screen.dart';
 import 'package:game_15/widgets/color_picker/color_picker.dart';
 import 'package:game_15/widgets/drawer/drawer.dart';
 import 'package:game_15/widgets/ripple/ripple_widget.dart';
@@ -124,7 +125,7 @@ class GameScreenView extends HookWidget {
       case GameType.menu:
         return DrawerWidget(key: key);
       case GameType.ripple:
-        return RippleWidget(key: key);
+        return CameraWidget(key: key);
     }
   }
 
