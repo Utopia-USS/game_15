@@ -11,6 +11,7 @@ class DrawerContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final slideValue = size / 14 * 3;
+    final iconSize = size / 12;
     final controllerValue = state.animationController.value;
     final double slideContent = -slideValue * (1 - state.animationController.value);
     final scale = 1 - 0.5 * (1 - state.animation);
@@ -28,11 +29,11 @@ class DrawerContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildItem(LineAwesomeIcons.font_awesome, size / 15),
-              _buildItem(LineAwesomeIcons.user, size / 15),
-              _buildItem(LineAwesomeIcons.fire, size / 15),
-              _buildItem(LineAwesomeIcons.alternate_money_bill, size / 15),
-              _buildItem(LineAwesomeIcons.file, size / 15),
+              _buildItem(LineAwesomeIcons.font_awesome, iconSize),
+              _buildItem(LineAwesomeIcons.user, iconSize),
+              _buildItem(LineAwesomeIcons.fire, iconSize),
+              _buildItem(LineAwesomeIcons.alternate_money_bill, iconSize),
+              _buildItem(LineAwesomeIcons.file, iconSize),
             ],
           ),
         ),

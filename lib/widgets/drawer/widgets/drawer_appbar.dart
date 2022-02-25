@@ -29,7 +29,7 @@ class DrawerAppBar extends StatelessWidget {
   }
 
   Widget _buildIcon(double size) {
-    final color = DrawerWidget.color;
+    final color = CustomDrawer.color;
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(

@@ -9,7 +9,7 @@ class DrawerMockItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double radius = 10;
-    final color = DrawerWidget.color;
+    final color = CustomDrawer.color;
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 36, 24, 0),

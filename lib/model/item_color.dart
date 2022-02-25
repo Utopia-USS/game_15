@@ -24,6 +24,11 @@ class ItemColor {
     accent: const Color(0xff7289DA),
   );
 
+  static final deepBlue = ItemColor._(
+    primary: const Color(0xff4CA1AF),
+    accent: const Color(0xff2C3E50),
+  );
+
   static final blue = ItemColor._(
     primary: const Color(0xff0079FA),
     accent: const Color(0xff5EACFF),
@@ -42,5 +47,5 @@ class ItemColor {
     accent: const Color(0xff19FF9C),
   );
 
-  static final all = [blue, teal, green,  orange, red, purple, lavender];
+  static final all = [blue, teal, green, orange, red, purple, lavender, deepBlue];
 }

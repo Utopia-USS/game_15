@@ -1,25 +1,20 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:game_15/screens/game/state/game_screen_state.dart';
 import 'package:utopia_hooks/utopia_hooks.dart';
 
-enum CameraFileType { IMAGE, VIDEO }
-enum CameraState { INITIALIZING, INITIALIZED }
-
 class CameraScreenState {
   final CameraController? cameraController;
-  final CameraState cameraState;
+  final bool initialized;
 
-  final Function() switchCamera;
-  final Function(double) onZoomChange;
+  final Future<void> Function() switchCamera;
+  final void Function(double) onZoomChange;
 
   const CameraScreenState({
     required this.switchCamera,
     required this.cameraController,
-    required this.cameraState,
+    required this.initialized,
     required this.onZoomChange,
   });
 }
@@ -71,14 +66,9 @@ CameraScreenState useCameraScreenState() {
   final cameras = useFuture(useMemoized(() async => await availableCameras()), initialData: null);
 
   final cameraDescriptionState = useState<CameraDescription?>(null);
-  final cameraState = useState<CameraState>(CameraState.INITIALIZING);
+  final initializedState = useState<bool>(false);
 
-  FlashMode obtainFlashMode() => FlashMode.off;
-
-  final cameraController = useCameraController(
-    description: cameraDescriptionState.value,
-    flashMode: obtainFlashMode(),
-  );
+  final cameraController = useCameraController(description: cameraDescriptionState.value);
 
   final cameraMaxZoomState = useState<double?>(null);
   final cameraZoomState = useState<double>(1);
@@ -95,7 +85,7 @@ CameraScreenState useCameraScreenState() {
     }
   }, [cameraController == null]);
 
-  changeCamera(CameraDescription description) async {
+  Future<void> changeCamera(CameraDescription description) async {
     cameraDescriptionState.value = description;
     cameraZoomState.value = 1;
   }
@@ -114,17 +104,17 @@ CameraScreenState useCameraScreenState() {
   useSimpleEffect(() {
     if (cameraController != null) {
       WidgetsBinding.instance!.addPostFrameCallback((_) async {
+        await Future.delayed(const Duration(milliseconds: 1000));
+        initializedState.value = true;
         await Future.delayed(gameState.initialDuration);
-        await Future.delayed(const Duration(milliseconds: 500));
-        await Future.delayed(const Duration(milliseconds: 500));
         gameState.gameController.perform?.call();
       });
     }
-  }, [cameraController]);
+  }, [cameraController != null]);
 
   return CameraScreenState(
     cameraController: cameraController,
-    cameraState: cameraState.value,
+    initialized: initializedState.value,
     switchCamera: () async => await changeCamera(findNextCamera()),
     onZoomChange: (value) => cameraZoomState.value = value,
   );

@@ -4,8 +4,6 @@ import 'package:utopia_hooks/utopia_hooks.dart';
 
 import '../../menu/menu_screen.dart';
 
-enum GameType { color_picker, menu, ripple }
-
 class GameScreenState {
   final GameType type;
   final bool isWon;

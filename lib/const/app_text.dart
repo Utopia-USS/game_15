@@ -15,4 +15,11 @@ class AppText {
     fontWeight: FontWeight.w300,
     color: Colors.white,
   );
+
+  static const menuCaption = TextStyle(
+      fontFamily: "Ugly Byte",
+      fontSize: 24,
+      fontWeight: FontWeight.w300,
+      color: Colors.white,
+      fontStyle: FontStyle.italic);
 }

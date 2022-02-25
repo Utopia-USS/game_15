@@ -14,7 +14,7 @@ class DrawerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = DrawerWidget.color;
+    final color = CustomDrawer.color;
     return Material(
       child: LayoutBuilder(builder: (context, constraints) {
         final size = constraints.maxHeight;

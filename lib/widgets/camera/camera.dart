@@ -1,11 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:game_15/model/item_color.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 import './state/use_camera_screen_state.dart';
 import './view/camera_screen_view.dart';
 
-class CameraWidget extends HookWidget {
-  const CameraWidget({Key? key}) : super(key: key);
+class ArCam extends HookWidget {
+  static final color = ItemColor.deepBlue;
+
+  const ArCam({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

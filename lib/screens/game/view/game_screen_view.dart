@@ -5,7 +5,8 @@ import 'package:game_15/game/game.dart';
 import 'package:game_15/game/game_config.dart';
 import 'package:game_15/model/item_color.dart';
 import 'package:game_15/screens/game/state/game_screen_state.dart';
-import 'package:game_15/widgets/camera/camera_screen.dart';
+import 'package:game_15/state/game_type_state.dart';
+import 'package:game_15/widgets/camera/camera.dart';
 import 'package:game_15/widgets/color_picker/color_picker.dart';
 import 'package:game_15/widgets/drawer/drawer.dart';
 import 'package:game_15/widgets/ripple/ripple_widget.dart';
@@ -26,7 +27,10 @@ class GameScreenView extends HookWidget {
         elevation: 0,
         leading: GestureDetector(
           onTap: state.onMenuPressed,
-          child: const Icon(Icons.menu, color: Colors.white),
+          child: const MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: Icon(Icons.menu, color: Colors.white),
+          ),
         ),
       ),
       body: Container(
@@ -81,15 +85,18 @@ class GameScreenView extends HookWidget {
   }
 
   Widget _buildGame(double size) {
-    return SizedBox(
-      height: size,
-      width: size,
-      child: Game(
-        key: ValueKey(state.type),
-        controller: state.gameController,
-        config: _buildConfig(size / 50),
-        child: ClipRect(
-          child: _buildGameChild(),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: SizedBox(
+        height: size,
+        width: size,
+        child: Game(
+          key: ValueKey(state.type),
+          controller: state.gameController,
+          config: _buildConfig(size / 50),
+          child: ClipRect(
+            child: _buildGameChild(),
+          ),
         ),
       ),
     );
@@ -100,9 +107,11 @@ class GameScreenView extends HookWidget {
       case GameType.color_picker:
         return ItemColor.all[1];
       case GameType.menu:
-        return ItemColor.lavender;
+        return CustomDrawer.color;
       case GameType.ripple:
-        return ItemColor.orange;
+        return RippleWidget.color;
+      case GameType.camera:
+        return ArCam.color;
     }
   }
 
@@ -113,7 +122,9 @@ class GameScreenView extends HookWidget {
       case GameType.menu:
         return Colors.grey.shade800;
       case GameType.ripple:
-        return ItemColor.orange.accent;
+        return RippleWidget.color.accent;
+      case GameType.camera:
+        return ArCam.color.primary;
     }
   }
 
@@ -123,9 +134,11 @@ class GameScreenView extends HookWidget {
       case GameType.color_picker:
         return ColorPicker(key: key);
       case GameType.menu:
-        return DrawerWidget(key: key);
+        return CustomDrawer(key: key);
       case GameType.ripple:
-        return CameraWidget(key: key);
+        return RippleWidget(key: key);
+      case GameType.camera:
+        return ArCam(key: key);
     }
   }
 

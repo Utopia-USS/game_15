@@ -17,7 +17,7 @@ MenuScreenState useMenuScreenState() {
   final context = useContext();
 
   return MenuScreenState(
-    onTypeChanged: (type) {
+    onTypeChanged: (type) async {
       typeState.onTypeChanged(type);
       Navigator.pop(context, MenuScreenResult.game_changed);
     },
