@@ -7,7 +7,7 @@ import 'package:game_15/state/game_type_state.dart';
 
 class MenuContent extends HookWidget {
   final Animation<double> animation;
-  final void Function(GameType) onItemPressed;
+  final void Function(GameType, BuildContext) onItemPressed;
 
   const MenuContent({
     Key? key,
@@ -100,18 +100,20 @@ class MenuContent extends HookWidget {
   }
 
   Widget _buildItem(String text, GameType type) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: () => onItemPressed(type),
-          child: Text(
-            text,
-            style: AppText.menuItem,
+    return Builder(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () => onItemPressed(type, context),
+            child: Text(
+              text,
+              style: AppText.menuItem,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

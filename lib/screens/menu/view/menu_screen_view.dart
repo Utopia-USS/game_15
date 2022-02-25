@@ -13,9 +13,8 @@ class MenuScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final animation = Provider.of<Animation<double>>(context, listen: false);
-    return Material(
-      color: Colors.transparent,
-      child: AnimatedBuilder(
+    return Scaffold(
+      body: AnimatedBuilder(
         animation: animation,
         builder: (context, child) {
           return Stack(
