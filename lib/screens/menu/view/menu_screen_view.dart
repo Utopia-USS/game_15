@@ -14,6 +14,7 @@ class MenuScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     final animation = Provider.of<Animation<double>>(context, listen: false);
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: AnimatedBuilder(
         animation: animation,
         builder: (context, child) {
