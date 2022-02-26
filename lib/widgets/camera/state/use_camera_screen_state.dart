@@ -74,7 +74,7 @@ CameraScreenState useCameraScreenState() {
   final cameraZoomState = useState<double>(1);
 
   useSimpleEffect(() {
-    if (cameras.data != null) cameraDescriptionState.value = cameras.data![0];
+    if (cameras.data != null) cameraDescriptionState.value = cameras.data!.last;
   }, [cameras.hasData]);
 
   useSimpleEffect(() {
