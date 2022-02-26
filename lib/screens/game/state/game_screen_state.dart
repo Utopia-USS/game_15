@@ -9,12 +9,14 @@ class GameScreenState {
   final bool isWon;
   final void Function() onMenuPressed;
   final GameController gameController;
+  final void Function() setGame;
 
   const GameScreenState({
     required this.type,
     required this.onMenuPressed,
     required this.isWon,
     required this.gameController,
+    required this.setGame,
   });
 
   get initialDuration => const Duration(milliseconds: 300) + MenuScreen.transitionDuration;
@@ -31,10 +33,18 @@ GameScreenState useGameScreenState({required Future<MenuScreenResult> Function()
     if (result == MenuScreenResult.game_changed) isWonState.value = false;
   }
 
+  setGame() async {
+    if(gameController.perform != null){
+      await gameController.perform!.call();
+      isWonState.value = true;
+    }
+  }
+
   return GameScreenState(
     type: typeState.type,
     onMenuPressed: onMenuPressed,
     isWon: isWonState.value,
     gameController: gameController,
+    setGame: setGame,
   );
 }

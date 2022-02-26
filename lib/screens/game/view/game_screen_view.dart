@@ -144,7 +144,7 @@ class GameScreenView extends HookWidget {
 
   GameConfig _buildConfig(double borderWidth) {
     return GameConfig(
-      moves: 20,
+      moves: 3,
       initialAnimationDuration: const Duration(milliseconds: 2500),
       initialAnimationCurve: Curves.elasticOut,
       decoration: BoxDecoration(

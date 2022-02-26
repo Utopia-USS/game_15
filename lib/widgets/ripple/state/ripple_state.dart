@@ -57,7 +57,7 @@ RippleState useRippleState({
       await animationController.forward();
       animationController.value = 0;
       animationController.duration = const Duration(milliseconds: 4000);
-      gameState.gameController.perform?.call();
+      gameState.setGame();
     });
   }, []);
 

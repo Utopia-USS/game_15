@@ -43,7 +43,7 @@ DrawerState useDrawerState() {
       await Future.delayed(const Duration(milliseconds: 500));
       await animationController.forward();
       await Future.delayed(const Duration(milliseconds: 800));
-      gameState.gameController.perform?.call();
+      gameState.setGame();
     });
   }, []);
 

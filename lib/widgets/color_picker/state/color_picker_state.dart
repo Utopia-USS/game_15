@@ -53,7 +53,7 @@ ColorPickerState useColorPickerState() {
       await Future.delayed(const Duration(milliseconds: 500));
       await onItemPressed(color: ItemColor.all[1], index: 1);
       await Future.delayed(const Duration(milliseconds: 500));
-      gameState.gameController.perform?.call();
+      gameState.setGame();
     });
   }, []);
 

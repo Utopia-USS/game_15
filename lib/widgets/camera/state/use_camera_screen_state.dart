@@ -107,7 +107,7 @@ CameraScreenState useCameraScreenState() {
         await Future.delayed(const Duration(milliseconds: 1000));
         initializedState.value = true;
         await Future.delayed(gameState.initialDuration);
-        gameState.gameController.perform?.call();
+        gameState.setGame();
       });
     }
   }, [cameraController != null]);
