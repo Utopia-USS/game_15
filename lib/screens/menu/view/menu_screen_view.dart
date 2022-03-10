@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:game_15/screens/menu/state/menu_screen_state.dart';
 import 'package:game_15/screens/menu/widgets/menu_background.dart';
 import 'package:game_15/screens/menu/widgets/menu_content.dart';
@@ -24,6 +23,7 @@ class MenuScreenView extends StatelessWidget {
               MenuContent(
                 animation: animation,
                 onItemPressed: state.onTypeChanged,
+                onGithubPressed: state.onGithubPressed,
               ),
             ],
           );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:game_15/widgets/drawer/state/drawer_state.dart';
 import 'package:game_15/widgets/drawer/widgets/drawer_content.dart';
 import 'package:game_15/widgets/drawer/widgets/drawer_gesture_wrapper.dart';

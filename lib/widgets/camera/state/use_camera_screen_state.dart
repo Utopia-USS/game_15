@@ -32,7 +32,7 @@ CameraController? useCameraController({required CameraDescription? description, 
       );
       () async {
         try {
-          await Future.delayed(Duration(seconds: 1));
+          await Future.delayed(const Duration(seconds: 1));
           await controller.initialize();
           await controller.lockCaptureOrientation(DeviceOrientation.portraitUp);
           controllerState.value = controller;
@@ -42,6 +42,7 @@ CameraController? useCameraController({required CameraDescription? description, 
       }();
       return () => controller.dispose();
     }
+    return null;
   }, [description, isPendingReinitializationState.value]);
 
   useSimpleEffect(() {

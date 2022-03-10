@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:game_15/widgets/drawer/drawer.dart';
 
 class DrawerGestureWrapper extends StatelessWidget {
   final ValueNotifier<double> offsetController;

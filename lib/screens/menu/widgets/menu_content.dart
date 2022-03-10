@@ -7,11 +7,13 @@ import 'package:game_15/state/game_type_state.dart';
 class MenuContent extends HookWidget {
   final Animation<double> animation;
   final void Function(GameType, BuildContext) onItemPressed;
+  final void Function() onGithubPressed;
 
   const MenuContent({
     Key? key,
     required this.animation,
     required this.onItemPressed,
+    required this.onGithubPressed,
   }) : super(key: key);
 
   @override
@@ -68,14 +70,17 @@ class MenuContent extends HookWidget {
   }
 
   Widget _buildBottom() {
-    return const Expanded(
+    return Expanded(
       child: Align(
-        alignment: Alignment(0, 0.7),
+        alignment: const Alignment(0, 0.7),
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
-          child: Text(
-            "visit our GITHUB",
-            style: AppText.menuCaption,
+          child: GestureDetector(
+            onTap: onGithubPressed,
+            child: const Text(
+              "visit our GITHUB",
+              style: AppText.menuCaption,
+            ),
           ),
         ),
       ),
@@ -99,20 +104,22 @@ class MenuContent extends HookWidget {
   }
 
   Widget _buildItem(String text, GameType type) {
-    return Builder(builder: (context) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            onTap: () => onItemPressed(type, context),
-            child: Text(
-              text,
-              style: AppText.menuItem,
+    return Builder(
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () => onItemPressed(type, context),
+              child: Text(
+                text,
+                style: AppText.menuItem,
+              ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 class AppText {
   AppText._();
+
   static const menuTitle = TextStyle(
     fontFamily: "Ugly Byte",
     fontSize: 80,
@@ -22,4 +22,10 @@ class AppText {
       fontWeight: FontWeight.w300,
       color: Colors.white,
       fontStyle: FontStyle.italic);
+
+  static final snackbar = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    color: Colors.black.withOpacity(0.75),
+  );
 }

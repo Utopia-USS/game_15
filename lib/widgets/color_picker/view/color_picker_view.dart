@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:game_15/widgets/color_picker/state/color_picker_state.dart';
 import 'package:game_15/widgets/color_picker/widget/color_picker_background.dart';
 import 'package:game_15/widgets/color_picker/widget/color_picker_carousel.dart';
