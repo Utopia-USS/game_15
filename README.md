@@ -23,7 +23,7 @@ redefines what's achievable in Flutter.
   - Custom Drawer
   - Color Picker
   - Water Ripple
-  - AR Cam (not available on web, [why?](#How it works?))
+  - AR Cam (not available on web, [why?](#Limitations))
 
 ## How it works?
 
@@ -52,7 +52,7 @@ specified by `KaleidoscopeDelegate`. Geometry of these shards can be changed wit
 like the underappreciated `Flow` widget, but instead of painting multiple children once, we paint one child many
 times.  
 Apart from [limitations](#Limitations), there are no requirements on the child widget. It participates in layout and
-lifecycle as usual. Additionally, it's available for hit testing (first matching shard "receives" the transformed
+lifecycle as usual. Additionally, it's available for hit testing (first matching shard receives the transformed
 position).
 
 #### Under the hood
