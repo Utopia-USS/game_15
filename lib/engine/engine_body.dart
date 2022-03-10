@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:game_15/engine/engine_context.dart';
-import 'package:game_15/engine/engine_direction.dart';
 import 'package:game_15/game/game_values.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -17,7 +16,7 @@ abstract class EngineBody {
   ///
   /// Returns `true` if the move "succeeded", i.e. body requesting the movement can assume there's now [distance] of
   /// free space in given [direction].
-  bool move(EngineContext context, Vector2 direction, double distance);
+  bool move(EngineQueryContext context, Vector2 direction, double distance);
 
   /// Let this body move freely for delta [time].
   void updateFreely(double time);
@@ -45,7 +44,7 @@ class EngineTile implements EngineBody {
   }
 
   @override
-  bool move(EngineContext context, Vector2 direction, double distance) {
+  bool move(EngineQueryContext context, Vector2 direction, double distance) {
     final queryResult = context.query(aabb, direction, excludeTile: this);
     final unobstructedDistance = max(0.0, queryResult.distance - GameValues.halfChildSize);
     if (unobstructedDistance >= distance) {
@@ -84,12 +83,13 @@ class EngineContainer implements EngineBody {
 
   @override
   double handleQuery(EngineQueryRequest request) {
-    final target = Vector2.all(request.direction.dot(EngineDirection.downRight) > 0 ? 1 : 0);
+    // target corner = left-top for left or up, bottom-right for right or down
+    final target = Vector2.all(request.direction.x + request.direction.y > 0 ? 1 : 0);
     return (target - request.aabb.center).dot(request.direction);
   }
 
   @override
-  bool move(EngineContext context, Vector2 direction, double distance) {
+  bool move(EngineQueryContext context, Vector2 direction, double distance) {
     // translation'(ds) ~ 1 / translation.length + 1 => translation(s) ~ log(s)
     final effectiveDistance = _moveDistanceRatio * distance / (translation.length + 1);
     translation.add(direction * effectiveDistance);
@@ -98,6 +98,7 @@ class EngineContainer implements EngineBody {
 
   @override
   void updateFreely(double time) {
+    // translation'(dt) ~ translation.length * dt
     final length = translation.length;
     final velocity = length * _velocityLengthRatio;
     final distance = min(length, velocity * time);

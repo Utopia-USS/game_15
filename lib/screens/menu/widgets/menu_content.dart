@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/const/app_text.dart';
-import 'package:game_15/screens/game/state/game_screen_state.dart';
 import 'package:game_15/screens/menu/menu_screen.dart';
 import 'package:game_15/state/game_type_state.dart';
 
@@ -49,8 +48,8 @@ class MenuContent extends HookWidget {
       children: [
         _buildTitle(),
         _buildItem("Color picker", GameType.color_picker),
-        _buildItem("Drawer", GameType.menu),
-        _buildItem("Ripple", GameType.ripple),
+        _buildItem("Custom Drawer", GameType.menu),
+        _buildItem("Water Ripple", GameType.ripple),
         _buildItem("AR Cam", GameType.camera),
         _buildBottom(),
       ],

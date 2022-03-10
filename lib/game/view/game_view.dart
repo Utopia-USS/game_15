@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:functional_listener/functional_listener.dart';
 import 'package:game_15/game/game_values.dart';
 import 'package:game_15/game/model/game_model.dart';
 import 'package:game_15/game/state/game_state.dart';
@@ -10,6 +11,7 @@ import 'package:game_15/util/kaleidoscope/kaleidoscope_delegate.dart';
 import 'package:game_15/util/kaleidoscope/kaleidoscope_shard.dart';
 import 'package:game_15/util/vector/vector_extensions.dart';
 import 'package:game_15/util/widget/decoration_clipper.dart';
+import 'package:game_15/util/widget/fast_transform.dart';
 import 'package:utopia_hooks/utopia_hooks.dart';
 import 'package:vector_math/vector_math_64.dart' hide Colors;
 
@@ -24,11 +26,7 @@ class GameView extends HookWidget {
     return Stack(
       fit: StackFit.passthrough,
       children: [
-        Flow(
-          clipBehavior: Clip.none,
-          delegate: _FlowDelegate(state.model),
-          children: [_buildDecoration(child: _buildKaleidoscope())],
-        ),
+        _buildTransform(child: _buildDecoration(child: _buildKaleidoscope())),
         if (!state.isWon) _buildGestureDetector(context),
       ],
     );
@@ -75,23 +73,17 @@ class GameView extends HookWidget {
     );
   }
 
-  Vector2 _transform(BuildContext context, Offset offset) =>
-      Vector2(offset.dx / context.size!.width, offset.dy / context.size!.height);
-}
-
-class _FlowDelegate extends FlowDelegate {
-  final ValueListenable<GameModel> model;
-
-  const _FlowDelegate(this.model) : super(repaint: model);
-
-  @override
-  void paintChildren(FlowPaintingContext context) {
-    final translation = model.value.translation.toOffset(context.size);
-    context.paintChild(0, transform: Matrix4.translationValues(translation.dx, translation.dy, 0));
+  Widget _buildTransform({required Widget child}) {
+    return FastTransform(
+      transform: state.model.map(
+        (it) => (size) => Matrix4.translationValues(it.translation.x * size.width, it.translation.y * size.height, 0),
+      ),
+      child: child,
+    );
   }
 
-  @override
-  bool shouldRepaint(_FlowDelegate other) => other.model != model;
+  Vector2 _transform(BuildContext context, Offset offset) =>
+      Vector2(offset.dx / context.size!.width, offset.dy / context.size!.height);
 }
 
 class _KaleidoscopeDelegate extends KaleidoscopeDelegate {

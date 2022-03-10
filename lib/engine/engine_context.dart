@@ -15,6 +15,7 @@ class EngineQueryRequest {
 
   EngineQueryRequest({required this.aabb, required this.direction});
 
+  /// [aabb] "extended to infinity" in [direction].
   late final aabbExtension = _calculateAabbExtension();
 
   Aabb2 _calculateAabbExtension() {
@@ -36,6 +37,6 @@ class EngineQueryRequest {
   }
 }
 
-abstract class EngineContext {
+abstract class EngineQueryContext {
   EngineQueryResult query(Aabb2 aabb, Vector2 direction, {EngineTile? excludeTile});
 }

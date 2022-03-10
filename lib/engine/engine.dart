@@ -1,8 +1,8 @@
 import 'package:game_15/engine/engine_body.dart';
 import 'package:game_15/engine/engine_context.dart';
 import 'package:game_15/engine/engine_direction.dart';
-import 'package:game_15/game/model/game_model.dart';
 import 'package:game_15/game/game_values.dart';
+import 'package:game_15/game/model/game_model.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class _PanData {
@@ -12,16 +12,14 @@ class _PanData {
   _PanData({required this.index, required this.lastPosition});
 }
 
-class Engine implements EngineContext {
+class Engine implements EngineQueryContext {
   _PanData? _currentPan;
   final List<EngineTile> _tiles;
   final _container = EngineContainer();
 
   Engine({required List<Vector2> initialPositions}) : _tiles = _buildInitialTiles(initialPositions);
 
-  List<EngineBody>
-
-  get _bodies => [_container, ..._tiles];
+  List<EngineBody> get _bodies => [_container, ..._tiles];
 
   void update(Duration duration) {
     if (_currentPan == null) {
@@ -84,5 +82,5 @@ class Engine implements EngineContext {
   }
 
   static List<EngineTile> _buildInitialTiles(List<Vector2> positions) =>
-      [for(int i = 0; i < GameValues.childCount; i++) EngineTile(position: positions[i], debugIndex: i)];
+      [for (int i = 0; i < GameValues.childCount; i++) EngineTile(position: positions[i], debugIndex: i)];
 }

@@ -1,6 +1,39 @@
-# game_15
+# Game of 15
 
-Game-15
+Classic puzzle, reimagined using the power of Flutter.
+Flutter Puzzle Hack 2022 contest entry. 
+
+![Presentation video](video.webm)
+
+## What is it?
+
+Given the task of reimagining the classic "game of 15" puzzle in Flutter, we decided to apply one of the key concepts in the framework - composability - to the game itself. 
+You can make *literally* any piece of Flutter UI the content of the game without losing interactivity, animations or compromising performance.
+Together with fun mechanics, beautiful visuals and 4 carefully selected levels, the game redefines
+what's achievable in Flutter.
+
+### Features
+
+- Real-world-inspired puzzle physics (move several tiles at once, snapping, board drift)
+- Procedurally-generated initial configurations
+- Fully interactive puzzle content
+- 4 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
+  - Custom Drawer
+  - Color Picker
+  - Water Ripple
+  - AR Cam (not available on web, [why?](#How it works?))
+
+## How it works?
+
+We started the development with simple idea: can we develop a puzzle which can use *any* flutter widget as a content? 
+
+### Game
+
+### Engine
+
+### Kaleidoscope
+
+
 
 ## Getting Started
 
