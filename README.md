@@ -1,10 +1,12 @@
-# Game of 15
+# Hack of 15
 
-Classic puzzle, reimagined using the power of Flutter. 
+Unleash full Flutter potential in the classic puzzle. Interactively.
 
-Flutter Puzzle Hack 2022 contest entry.
+[Flutter Puzzle Hack](https://flutterhack.devpost.com) contest entry.
 
-![Video](video.gif)
+<center>
+<img src="video.gif" height="500"/>
+</center>
 
 ## What is it?
 
@@ -63,8 +65,8 @@ current widget tree. Apart from sending the actual drawing commands, it's also r
 resources allocated by the engine - `EngineLayer`s.  
 One `Layer` can hold on to at most one `EngineLayer`. The problem arises when you want to draw a `Layer` more than once
 per frame (`EngineLayer`s cannot be reused during a single frame, so you need one of them for every shard).  
-To overcome this, `KaleidoscopeLayer` hooks into the low-level `SceneBuilder` API. Each of the child's `Layer`s is "
-tricked into thinking" that it manages a single, fake, `EngineLayer`, when it actually corresponds to as
+To overcome this, `KaleidoscopeLayer` hooks into the low-level `SceneBuilder` API. Each of the child's `Layer`s is "tricked 
+into thinking" that it manages a single, fake, `EngineLayer`, when it actually corresponds to as
 many `EngineLayer`s as needed.  
 See the `KeyedEngineLayerStorage` and `SceneBuilderWithStorage` classes for more details.
 
