@@ -75,6 +75,7 @@ class GameView extends HookWidget {
 
   Widget _buildTransform({required Widget child}) {
     return FastTransform(
+      clipBehaviour: Clip.none,
       transform: state.model.map(
         (it) => (size) => Matrix4.translationValues(it.translation.x * size.width, it.translation.y * size.height, 0),
       ),
@@ -100,6 +101,7 @@ class _KaleidoscopeDelegate extends KaleidoscopeDelegate {
     return KaleidoscopeShard.fromSrcDst(
       src: position.aabbAround(GameValues.halfChildExtent).toRect(size),
       dst: (model.value.positions[index] - GameValues.halfChildExtent).toOffset(size),
+      clipBehaviour: Clip.hardEdge,
     );
   }
 
@@ -115,7 +117,7 @@ class _WonKaleidoscopeDelegate extends KaleidoscopeDelegate {
 
   @override
   KaleidoscopeShard getShard(Size size, int index) =>
-      KaleidoscopeShard.fromSrcDst(src: Offset.zero & size, dst: Offset.zero);
+      KaleidoscopeShard.fromSrcDst(src: Offset.zero & size, dst: Offset.zero, clipBehaviour: Clip.hardEdge);
 
   @override
   bool shouldRepaint(_WonKaleidoscopeDelegate other) => false;

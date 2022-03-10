@@ -10,7 +10,7 @@ class RippleState {
   final double animation;
   final void Function({
     required BuildContext context,
-    required TapDownDetails details,
+    required TapUpDetails details,
     required BoxConstraints constraints,
     required int row,
     required int column,
@@ -37,7 +37,7 @@ RippleState useRippleState({
 
   void triggerAnimation({
     required BuildContext context,
-    required TapDownDetails details,
+    required TapUpDetails details,
     required BoxConstraints constraints,
     required int row,
     required int column,

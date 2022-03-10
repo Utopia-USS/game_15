@@ -24,7 +24,7 @@ abstract class EngineBody {
 
 class EngineTile implements EngineBody {
   static const _teleportDistance = 0.005;
-  static const _snapVelocity = 0.005;
+  static const _snapVelocity = 0.0025;
 
   /// Position of this body's center.
   Vector2 position;

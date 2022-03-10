@@ -10,7 +10,7 @@ class FastTransform extends StatelessWidget {
     Key? key,
     required this.transform,
     required this.child,
-    this.clipBehaviour = Clip.hardEdge,
+    this.clipBehaviour = Clip.antiAlias,
   }) : super(key: key);
 
   @override

@@ -32,7 +32,7 @@ class KaleidoscopeLayer extends ContainerLayer {
       final builderWithStorage = SceneBuilderWithStorage(builder, storage: _storage, index: index);
       final shard = _model![index];
       builderWithStorage.pushTransform(shard.transform.storage);
-      shard.clip.push(builderWithStorage);
+      shard.clip.push(builderWithStorage, clipBehaviour: shard.clipBehaviour);
 
       _recursivelyMarkNeedsAddToScene(firstChild!);
 

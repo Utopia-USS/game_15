@@ -59,18 +59,14 @@ class KaleidoscopeShard {
   /// clip region of [child]
   final KaleidoscopeShardClip clip;
 
+  final Clip clipBehaviour;
+
   /// transform to be applied to the clipped region
   final Matrix4 transform;
 
-  const KaleidoscopeShard({required this.clip, required this.transform});
+  const KaleidoscopeShard({required this.clip, required this.transform, this.clipBehaviour = Clip.antiAlias});
 
-  static KaleidoscopeShard fromSrcDst({
-    required Rect src,
-    required Offset dst,
-  }) {
-    return KaleidoscopeShard(
-      clip: KaleidoscopeShardClip.rect(src),
-      transform: Matrix4.translationValues(dst.dx - src.left, dst.dy - src.top, 0),
-    );
-  }
+  KaleidoscopeShard.fromSrcDst({required Rect src, required Offset dst, this.clipBehaviour = Clip.antiAlias})
+      : clip = KaleidoscopeShardClip.rect(src),
+        transform = Matrix4.translationValues(dst.dx - src.left, dst.dy - src.top, 0);
 }

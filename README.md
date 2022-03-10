@@ -5,7 +5,7 @@ Unleash full Flutter potential in the classic puzzle. Interactively.
 [Flutter Puzzle Hack](https://flutterhack.devpost.com) contest entry.
 
 <center>
-<img src="video.gif" height="500"/>
+<img src="video.gif" height="500px"/>
 </center>
 
 ## What is it?

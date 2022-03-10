@@ -63,7 +63,7 @@ class RippleView extends StatelessWidget {
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTapDown: (details) => state.triggerAnimation(
+        onTapUp: (details) => state.triggerAnimation(
           context: context,
           details: details,
           constraints: constraints,
