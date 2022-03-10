@@ -1,9 +1,10 @@
 # Game of 15
 
-Classic puzzle, reimagined using the power of Flutter.
-Flutter Puzzle Hack 2022 contest entry. 
+Classic puzzle, reimagined using the power of Flutter. 
 
-<video><source src="video.webm" type="video/webm"></video>
+Flutter Puzzle Hack 2022 contest entry.
+
+![Video](video.gif)
 
 ## What is it?
 
@@ -25,15 +26,33 @@ what's achievable in Flutter.
 
 ## How it works?
 
-We started the development with simple idea: can we develop a puzzle which can use *any* flutter widget as a content? 
+We started the development with simple question: can you create a puzzle which can use *any* flutter widget as a
+content? As it turns out, with the right amount of digging around in the low-level flutter code, you can. The final
+effect looks like this:
+
+```dart
+Widget build(BuildContext context) {
+  return Game(
+    controller: gameController, 
+    child: const AnythingYouWant(),
+  );
+}
+```
+
+Where `Game` handles the whole puzzle's logic. Note that `child` can be *any* ordinary Flutter widget, and during the
+game it can alter its state, perform animations, receive tap gestures(transformed according to current tile's positions)
+. Below we'll discuss how this is possible.
+
+### Kaleidoscope
+
+The heart of the puzzle is our custom-built `Kaleidoscope` widget. Generally, it can display its child as an arbitrary
+number of "shards". Each shard paints the child with different matrix transformations and clipping, as specified
+by `KaleidoscopeDelegate`. Geometry of these shards can be changed without the need to trigger rebuilds - much like the
+underappreciated `Flow` widget, but instead of painting multiple children once, we paint one child many times.
 
 ### Game
 
 ### Engine
-
-### Kaleidoscope
-
-
 
 ## Getting Started
 
@@ -45,6 +64,6 @@ A few resources to get you started if this is your first Flutter project:
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
 For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-''
+[online documentation](https://flutter.dev/docs), which offers tutorials, samples, guidance on mobile development, and a
+full API reference.
+''''
