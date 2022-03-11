@@ -23,11 +23,11 @@ redefines what's achievable in Flutter.
 - Fully interactive puzzle content
 - 4 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
 -
-    - [Color Picker](#Color Picker)
-    - [Custom Drawer](#Custom Drawer)
-    - [Water Ripple](#Water Ripple)
-    - [AR Cam](#AR Cam) (not available on web, [why?](#Limitations))
-    - [Game x Game](#Game x Game)
+    - [Color Picker](#Color-Picker)
+    - [Custom Drawer](#Custom-Drawer)
+    - [Water Ripple](#Water-Ripple)
+    - [AR Cam](#AR-Cam) (not available on web, [why?](#Limitations))
+    - [Game x Game](#Game-x-Game)
 
 ## How it works?
 
