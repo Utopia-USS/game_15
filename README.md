@@ -109,24 +109,24 @@ of `Animated Builder` making it extra efficient.
 #### Custom Drawer
 
 Inspired by `Marcin Szalek's` "Implementing complex UI" talk was one of our first outside the box widgets we've ever
-created. It redefines approach to the basic, well known components and shows the simplicity of creating eye-catching
+created. It redefines the approach to basic, well known components and shows the simplicity of creating eye-catching
 layouts using basic Flutter features.
 
 #### Water Ripple
 
 The result of an experiment in which we used several layered widgets, modified with scaling and colored overlays to
 imitate the lensing effect of water ripples. Due to the `Game` transformations the level is not only extremely hard but
-also can make you dizzy - your welcome and be careful.
+also can make you dizzy - you're welcome and be careful.
 
 #### AR Cam
 
-That's the point where we really started to push boundaries. We wanted to include some sort of media widget, as a video
-player for instance, but we decided to give the `camera` a go. As straightforward as the widget is, it's still a hell of
-fun solving the puzzle made of your best bud's messed up face (or cat's if you don't like humans).
+That's the point where we really started to push boundaries. We wanted to include some sort of media widget, for
+instance a video player, but we decided to give the `camera` a go. As straightforward as the widget is, it's still a
+hell of a lot of fun solving the puzzle made of your best bud's messed up face (or cat's if you don't like humans).
 
 #### Game x Game
 
-Since we are able to use any widget as the game's content we decided to use the `Game` itself. You must translate
-between two boards in order to complete the puzzle. Taking to account additional degree of freedom it's the hardest mode
-to play and might not be winnable in reasonable amount of time. If that's the case, why did we even bother creating
+Since we are able to use any widget as the game's content, we decided to use the `Game` itself. You must translate
+between two boards in order to complete the puzzle. Taking into account additional degree of freedom it's the hardest
+mode to play and might not be winnable in a reasonable amount of time. If that's the case, why did we even bother creating
 it?  **Because we could**  
