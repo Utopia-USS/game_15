@@ -27,13 +27,8 @@ class GameScreenView extends HookWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: GestureDetector(
-          onTap: state.onMenuPressed,
-          child: const MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: Icon(Icons.menu, color: Colors.white),
-          ),
-        ),
+        leading: _buildMenuButton(),
+        actions: [if (state.isResetVisible) _buildResetButton()],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -127,6 +122,29 @@ class GameScreenView extends HookWidget {
     );
   }
 
+  Widget _buildMenuButton() {
+    return GestureDetector(
+      onTap: state.onMenuPressed,
+      child: const MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Icon(Icons.menu, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _buildResetButton() {
+    return GestureDetector(
+      onTap: state.onResetPressed,
+      child: const MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Padding(
+          padding: EdgeInsets.only(right: 12),
+          child: Icon(Icons.replay, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
   ItemColor _getColorTheme() {
     switch (state.type) {
       case GameType.color_picker:
@@ -177,7 +195,7 @@ class GameScreenView extends HookWidget {
     return GameConfig(
       moves: 30,
       animationDuration: const Duration(milliseconds: 2500),
-      animationCurve: Curves.elasticOut,
+      animationCurve: const ElasticOutCurve(0.6),
       decoration: BoxDecoration(
         color: _getGameBackground(),
         boxShadow: [
