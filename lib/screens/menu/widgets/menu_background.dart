@@ -27,7 +27,6 @@ class MenuBackground extends StatelessWidget {
           initialOffsetX: -1,
           intervalStart: 0.2,
           intervalEnd: 0.4,
-
           gradientBegin: AppColors.primary[200]!,
           gradientEnd: AppColors.primary[300]!,
           animation: animation,

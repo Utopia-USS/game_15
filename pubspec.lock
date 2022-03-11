@@ -475,7 +475,14 @@ packages:
       name: utopia_utils
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.7"
+    version: "0.2.9"
+  utopia_widgets:
+    dependency: "direct main"
+    description:
+      name: utopia_widgets
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.9"
   vector_math:
     dependency: "direct main"
     description:
