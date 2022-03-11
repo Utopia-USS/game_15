@@ -22,7 +22,8 @@ redefines what's achievable in Flutter.
 - Procedurally-generated initial configurations
 - Fully interactive puzzle content
 - 4 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
--   - [Color Picker](#ColorPicker)
+-
+    - [Color Picker](#ColorPicker)
     - [Custom Drawer](#CustomDrawer)
     - [Water Ripple](#WaterRipple)
     - [AR Cam](#ARCam) (not available on web, [why?](#Limitations))
@@ -99,28 +100,32 @@ changes does not require rebuilding the widget tree which allows in to stay blaz
 We included to the game 5 built-in puzzles to demonstrate endless creative possibilities od the `Kaleidoscope`
 widget.
 
-- [Color Picker](#ColorPicker) - the easiest yet one of the most satisfying modes to play. The first time we've come across this idea
-  in `Briefly` app. Elegant picker which does not require rebuilding while animating due to usage of `Custom Clipper`
-  instead of `Animated Builder`.
+#### Color Picker
 
+The easiest yet one of the most satisfying modes to play. The first time we've come across this idea in `Briefly` app.
+Elegant picker which does not require rebuilding while animating due to usage of `Custom Clipper`
+instead of `Animated Builder`.
 
-- [Custom Drawer](#CustomDrawer) - inspired by `Marcin Szalek` "Implementing complex UI" talk and was one of our first "outside the
-  box" widgets we've ever created. It redefines approach to the basic, well known components and shows the simplicity of
-  creating eye-catching layouts using basic Flutter features.
+#### Custom Drawer
 
+Inspired by `Marcin Szalek's` "Implementing complex UI" talk and was one of our first "outside the box" widgets we've
+ever created. It redefines approach to the basic, well known components and shows the simplicity of creating
+eye-catching layouts using basic Flutter features.
 
-- [Water Ripple](#WaterRipple) - is the result of an experiment in which we used several layered widgets, modified with scaling and
-  colored overlays to imitate the lensing effect of water ripples. Due to the `Game` transformations the level is not
-  only extremely hard but also can make you dizzy.
+#### Water Ripple`
 
+The result of an experiment in which we used several layered widgets, modified with scaling and colored overlays to
+imitate the lensing effect of water ripples. Due to the `Game` transformations the level is not only extremely hard but
+also can make you dizzy.
 
-- [AR Cam](#ARCam) - that's the point where we really started to push boundaries. As straightforward as the widget is, it's
-  still a hell of fun solving the puzzle made of your best bud's messed up face (or cat's if you don't like humans).
+#### AR Cam
 
+That's the point where we really started to push boundaries. As straightforward as the widget is, it's still a hell of
+fun solving the puzzle made of your best bud's messed up face (or cat's if you don't like humans).
 
-- [Game x Game](#GamexGame) - since we are able to use any widget as the game's content we decided to use the `Game` itself. You
-  must translate between two boards in order to complete the puzzle. Taking to account additional degree of freedom it's
-  the hardest mode to play and might not be winnable in reasonable amount of time. If so, why did we even bother
-  creating it?  **Because we could**  
+#### Game x Game
 
-  
+Since we are able to use any widget as the game's content we decided to use the `Game` itself. You must translate
+between two boards in order to complete the puzzle. Taking to account additional degree of freedom it's the hardest mode
+to play and might not be winnable in reasonable amount of time. If so, why did we even bother creating it?  **Because we
+could**  
