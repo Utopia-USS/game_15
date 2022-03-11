@@ -22,10 +22,11 @@ redefines what's achievable in Flutter.
 - Procedurally-generated initial configurations
 - Fully interactive puzzle content
 - 4 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
-  - Custom Drawer
-  - Color Picker
-  - Water Ripple
-  - AR Cam (not available on web, [why?](#Limitations))
+-   - [Color Picker](#ColorPicker)
+    - [Custom Drawer](#CustomDrawer)
+    - [Water Ripple](#WaterRipple)
+    - [AR Cam](#ARCam) (not available on web, [why?](#Limitations))
+    - [Game x Game](#GamexGame)
 
 ## How it works?
 
@@ -65,8 +66,8 @@ current widget tree. Apart from sending the actual drawing commands, it's also r
 resources allocated by the engine - `EngineLayer`s.  
 One `Layer` can hold on to at most one `EngineLayer`. The problem arises when you want to draw a `Layer` more than once
 per frame (`EngineLayer`s cannot be reused during a single frame, so you need one of them for every shard).  
-To overcome this, `KaleidoscopeLayer` hooks into the low-level `SceneBuilder` API. Each of the child's `Layer`s is "tricked 
-into thinking" that it manages a single, fake, `EngineLayer`, when it actually corresponds to as
+To overcome this, `KaleidoscopeLayer` hooks into the low-level `SceneBuilder` API. Each of the child's `Layer`s is "
+tricked into thinking" that it manages a single, fake, `EngineLayer`, when it actually corresponds to as
 many `EngineLayer`s as needed.  
 See the `KeyedEngineLayerStorage` and `SceneBuilderWithStorage` classes for more details.
 
@@ -92,3 +93,34 @@ features.
 `Game` manages the whole puzzle lifecycle (initialization, demo, shuffling, solving and winning). It acts as a bridge
 between `Engine` and `Kaleidoscope`, scheduling physics updates and displaying tiles' state on every frame. Most of the
 changes does not require rebuilding the widget tree which allows in to stay blazing-fast.
+
+### Levels
+
+We included to the game 5 built-in puzzles to demonstrate endless creative possibilities od the `Kaleidoscope`
+widget.
+
+- [Color Picker](#ColorPicker) - the easiest yet one of the most satisfying modes to play. The first time we've come across this idea
+  in `Briefly` app. Elegant picker which does not require rebuilding while animating due to usage of `Custom Clipper`
+  instead of `Animated Builder`.
+
+
+- [Custom Drawer](#CustomDrawer) - inspired by `Marcin Szalek` "Implementing complex UI" talk and was one of our first "outside the
+  box" widgets we've ever created. It redefines approach to the basic, well known components and shows the simplicity of
+  creating eye-catching layouts using basic Flutter features.
+
+
+- [Water Ripple](#WaterRipple) - is the result of an experiment in which we used several layered widgets, modified with scaling and
+  colored overlays to imitate the lensing effect of water ripples. Due to the `Game` transformations the level is not
+  only extremely hard but also can make you dizzy.
+
+
+- [AR Cam](#ARCam) - that's the point where we really started to push boundaries. As straightforward as the widget is, it's
+  still a hell of fun solving the puzzle made of your best bud's messed up face (or cat's if you don't like humans).
+
+
+- [Game x Game](#GamexGame) - since we are able to use any widget as the game's content we decided to use the `Game` itself. You
+  must translate between two boards in order to complete the puzzle. Taking to account additional degree of freedom it's
+  the hardest mode to play and might not be winnable in reasonable amount of time. If so, why did we even bother
+  creating it?  **Because we could**  
+
+  
