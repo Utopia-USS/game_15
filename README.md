@@ -102,7 +102,7 @@ There are 5 built-in interactive puzzles included to demonstrate endless creativ
 #### Color Picker
 
 The easiest yet one of the most satisfying modes to play. We've come across this idea in `Briefly` app a while ago and
-after few adjustments it turned out to be a perfect fit for the display of our game's capabilities. It's an elegant
+after a few adjustments it turned out to be a perfect fit for the display of our game's capabilities. It's an elegant
 picker which does not require rebuilding while animating due to the usage of `Custom Clipper` instead
 of `Animated Builder` making it extra efficient.
 
