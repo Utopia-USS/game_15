@@ -1,6 +1,6 @@
 import 'package:utopia_hooks/utopia_hooks.dart';
 
-enum GameType { color_picker, menu, ripple, camera }
+enum GameType { color_picker, menu, ripple, camera, square }
 
 class GameTypeState {
   final GameType type;

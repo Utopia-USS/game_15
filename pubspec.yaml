@@ -26,6 +26,7 @@ dependencies:
   matrix_gesture_detector: ^0.2.0-nullsafety.1
   functional_listener: ^2.1.0
   url_launcher: ^6.0.20
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -9,9 +9,13 @@ enum GameScreenStage { demo, inProgress, won }
 class GameScreenState {
   final GameType type;
   final GameScreenStage stage;
-  final void Function() onMenuPressed;
+
   final GameController gameController;
   final void Function() setGame;
+  final void Function() onMenuPressed;
+
+  final bool isLocked;
+  final void Function(bool) onLockChanged;
 
   const GameScreenState({
     required this.type,
@@ -19,6 +23,8 @@ class GameScreenState {
     required this.stage,
     required this.gameController,
     required this.setGame,
+    required this.onLockChanged,
+    required this.isLocked,
   });
 
   get initialDuration => const Duration(milliseconds: 300) + MenuScreen.transitionDuration;
@@ -32,13 +38,15 @@ GameScreenState useGameScreenState({required Future<MenuScreenResult> Function()
 
   final gameController = useMemoized(GameController.new, [typeState.type]);
 
+  final isGameLockedState = useState<bool>(false);
+
   onMenuPressed() async {
     final result = await navigateToMenu();
     if (result == MenuScreenResult.game_changed) stageState.value = GameScreenStage.demo;
   }
 
   setGame() async {
-    if(gameController.perform != null){
+    if (gameController.perform != null) {
       stageState.value = GameScreenStage.inProgress;
       await gameController.shuffle!();
       await gameController.perform!();
@@ -52,5 +60,7 @@ GameScreenState useGameScreenState({required Future<MenuScreenResult> Function()
     stage: stageState.value,
     gameController: gameController,
     setGame: setGame,
+    isLocked: isGameLockedState.value,
+    onLockChanged: (value) => isGameLockedState.value = value,
   );
 }

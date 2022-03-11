@@ -52,6 +52,7 @@ class MenuContent extends HookWidget {
         _buildItem("Color picker", GameType.color_picker),
         _buildItem("Custom Drawer", GameType.menu),
         _buildItem("Water Ripple", GameType.ripple),
+        _buildItem("Game x Game", GameType.square),
         _buildItem("AR Cam", GameType.camera),
         _buildBottom(),
       ],
