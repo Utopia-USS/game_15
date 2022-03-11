@@ -112,7 +112,7 @@ Inspired by `Marcin Szalek's` "Implementing complex UI" talk and was one of our 
 ever created. It redefines approach to the basic, well known components and shows the simplicity of creating
 eye-catching layouts using basic Flutter features.
 
-#### Water Ripple`
+#### Water Ripple
 
 The result of an experiment in which we used several layered widgets, modified with scaling and colored overlays to
 imitate the lensing effect of water ripples. Due to the `Game` transformations the level is not only extremely hard but
