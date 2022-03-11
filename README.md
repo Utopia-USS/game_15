@@ -95,37 +95,38 @@ features.
 between `Engine` and `Kaleidoscope`, scheduling physics updates and displaying tiles' state on every frame. Most of the
 changes does not require rebuilding the widget tree which allows in to stay blazing-fast.
 
-### Levels
+### Game modes
 
-We included to the game 5 built-in puzzles to demonstrate endless creative possibilities od the `Kaleidoscope`
-widget.
+There are 5 built-in interactive puzzles included to demonstrate endless creative possibilities of the `Kaleidoscope`.
 
 #### Color Picker
 
-The easiest yet one of the most satisfying modes to play. The first time we've come across this idea in `Briefly` app.
-Elegant picker which does not require rebuilding while animating due to usage of `Custom Clipper`
-instead of `Animated Builder`.
+The easiest yet one of the most satisfying modes to play. We've come across this idea in `Briefly` app a while ago and
+after few adjustments it turned out to be a perfect fit for the display of our game's capabilities. It's an elegant
+picker which does not require rebuilding while animating due to the usage of `Custom Clipper` instead
+of `Animated Builder` making it extra efficient.
 
 #### Custom Drawer
 
-Inspired by `Marcin Szalek's` "Implementing complex UI" talk and was one of our first "outside the box" widgets we've
-ever created. It redefines approach to the basic, well known components and shows the simplicity of creating
-eye-catching layouts using basic Flutter features.
+Inspired by `Marcin Szalek's` "Implementing complex UI" talk was one of our first outside the box widgets we've ever
+created. It redefines approach to the basic, well known components and shows the simplicity of creating eye-catching
+layouts using basic Flutter features.
 
 #### Water Ripple
 
 The result of an experiment in which we used several layered widgets, modified with scaling and colored overlays to
 imitate the lensing effect of water ripples. Due to the `Game` transformations the level is not only extremely hard but
-also can make you dizzy.
+also can make you dizzy - your welcome and be careful.
 
 #### AR Cam
 
-That's the point where we really started to push boundaries. As straightforward as the widget is, it's still a hell of
+That's the point where we really started to push boundaries. We wanted to include some sort of media widget, as a video
+player for instance, but we decided to give the `camera` a go. As straightforward as the widget is, it's still a hell of
 fun solving the puzzle made of your best bud's messed up face (or cat's if you don't like humans).
 
 #### Game x Game
 
 Since we are able to use any widget as the game's content we decided to use the `Game` itself. You must translate
 between two boards in order to complete the puzzle. Taking to account additional degree of freedom it's the hardest mode
-to play and might not be winnable in reasonable amount of time. If so, why did we even bother creating it?  **Because we
-could**  
+to play and might not be winnable in reasonable amount of time. If that's the case, why did we even bother creating
+it?  **Because we could**  
