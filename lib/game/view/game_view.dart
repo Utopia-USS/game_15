@@ -27,7 +27,7 @@ class GameView extends HookWidget {
       fit: StackFit.passthrough,
       children: [
         _buildTransform(child: _buildDecoration(child: _buildKaleidoscope())),
-        if (!state.isWon) _buildGestureDetector(context),
+        if (state.areGesturesEnabled) _buildGestureDetector(context),
       ],
     );
   }
@@ -101,7 +101,7 @@ class _KaleidoscopeDelegate extends KaleidoscopeDelegate {
     return KaleidoscopeShard.fromSrcDst(
       src: position.aabbAround(GameValues.halfChildExtent).toRect(size),
       dst: (model.value.positions[index] - GameValues.halfChildExtent).toOffset(size),
-      clipBehaviour: Clip.hardEdge,
+      clipBehaviour: Clip.antiAliasWithSaveLayer,
     );
   }
 
@@ -117,7 +117,7 @@ class _WonKaleidoscopeDelegate extends KaleidoscopeDelegate {
 
   @override
   KaleidoscopeShard getShard(Size size, int index) =>
-      KaleidoscopeShard.fromSrcDst(src: Offset.zero & size, dst: Offset.zero, clipBehaviour: Clip.hardEdge);
+      KaleidoscopeShard.fromSrcDst(src: Offset.zero & size, dst: Offset.zero, clipBehaviour: Clip.antiAliasWithSaveLayer);
 
   @override
   bool shouldRepaint(_WonKaleidoscopeDelegate other) => false;

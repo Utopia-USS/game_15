@@ -5,10 +5,9 @@ class GameModel {
   final Vector2 translation;
   final List<Vector2> positions;
 
-  const GameModel({required this.translation, required this.positions});
+  GameModel({Vector2? translation, required this.positions}) : translation = translation ?? Vector2.zero();
 
   static final initial = GameModel(
-    translation: Vector2.zero(),
     positions: [for (int i = 0; i < GameValues.childCount; i++) GameValues.positionFor(i)],
   );
 }

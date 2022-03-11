@@ -4,14 +4,14 @@ class GameConfig {
   final Decoration? decoration;
   final Decoration? foregroundDecoration;
   final int moves;
-  final Duration initialAnimationDuration;
-  final Curve initialAnimationCurve;
+  final Duration animationDuration;
+  final Curve animationCurve;
 
   const GameConfig({
     this.decoration,
     this.foregroundDecoration,
     required this.moves,
-    required this.initialAnimationDuration,
-    required this.initialAnimationCurve,
+    required this.animationDuration,
+    required this.animationCurve,
   });
 }

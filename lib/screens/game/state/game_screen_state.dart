@@ -4,9 +4,11 @@ import 'package:utopia_hooks/utopia_hooks.dart';
 
 import '../../menu/menu_screen.dart';
 
+enum GameScreenStage { demo, inProgress, won }
+
 class GameScreenState {
   final GameType type;
-  final bool isWon;
+  final GameScreenStage stage;
   final void Function() onMenuPressed;
   final GameController gameController;
   final void Function() setGame;
@@ -14,36 +16,40 @@ class GameScreenState {
   const GameScreenState({
     required this.type,
     required this.onMenuPressed,
-    required this.isWon,
+    required this.stage,
     required this.gameController,
     required this.setGame,
   });
 
   get initialDuration => const Duration(milliseconds: 300) + MenuScreen.transitionDuration;
+
+  bool get isWon => stage == GameScreenStage.won;
 }
 
 GameScreenState useGameScreenState({required Future<MenuScreenResult> Function() navigateToMenu}) {
   final typeState = useProvided<GameTypeState>();
-  final isWonState = useState(false);
+  final stageState = useState(GameScreenStage.demo);
 
   final gameController = useMemoized(GameController.new, [typeState.type]);
 
   onMenuPressed() async {
     final result = await navigateToMenu();
-    if (result == MenuScreenResult.game_changed) isWonState.value = false;
+    if (result == MenuScreenResult.game_changed) stageState.value = GameScreenStage.demo;
   }
 
   setGame() async {
     if(gameController.perform != null){
-      await gameController.perform!.call();
-      isWonState.value = true;
+      stageState.value = GameScreenStage.inProgress;
+      await gameController.shuffle!();
+      await gameController.perform!();
+      stageState.value = GameScreenStage.won;
     }
   }
 
   return GameScreenState(
     type: typeState.type,
     onMenuPressed: onMenuPressed,
-    isWon: isWonState.value,
+    stage: stageState.value,
     gameController: gameController,
     setGame: setGame,
   );

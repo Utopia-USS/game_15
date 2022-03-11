@@ -95,7 +95,10 @@ class GameScreenView extends HookWidget {
           controller: state.gameController,
           config: _buildConfig(size / 50),
           child: ClipRect(
-            child: _buildGameChild(),
+            child: IgnorePointer(
+              ignoring: state.stage == GameScreenStage.demo,
+              child: _buildGameChild(),
+            ),
           ),
         ),
       ),
@@ -145,8 +148,8 @@ class GameScreenView extends HookWidget {
   GameConfig _buildConfig(double borderWidth) {
     return GameConfig(
       moves: 3,
-      initialAnimationDuration: const Duration(milliseconds: 2500),
-      initialAnimationCurve: Curves.elasticOut,
+      animationDuration: const Duration(milliseconds: 2500),
+      animationCurve: Curves.elasticOut,
       decoration: BoxDecoration(
         color: _getGameBackground(),
         boxShadow: [

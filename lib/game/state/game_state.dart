@@ -17,7 +17,7 @@ enum _Stage { notStarted, inProgress, won }
 class GameState {
   final GameConfig config;
   final ValueListenable<GameModel> model;
-  final bool isWon;
+  final bool isWon, areGesturesEnabled;
 
   final Function(Vector2) onPanStart;
   final Function(Vector2) onPanUpdate;
@@ -27,46 +27,64 @@ class GameState {
     required this.config,
     required this.model,
     required this.isWon,
+    required this.areGesturesEnabled,
     required this.onPanStart,
     required this.onPanUpdate,
     required this.onPanEnd,
   });
 }
 
-GameState useGameState({required GameConfig config, required GameController controller}) {
-  final initialPositions = useMemoized(() => GameRandomizer.generatePositions(moves: config.moves));
-  final engine = useMemoized(() => Engine(initialPositions: initialPositions));
-  final model = useMemoized(() => ValueNotifier(GameModel.initial));
+GameState useGameState({
+  required bool isLocked,
+  required GameConfig config,
+  required GameController controller,
+}) {
+  final gameId = useState(0);
+  final initialPositions = useMemoized(() => GameRandomizer.generatePositions(moves: config.moves), [gameId.value]);
+  final engine = useMemoized(() => Engine(initialPositions: initialPositions), [gameId.value]);
+  final model = useMemoized(() => ValueNotifier(GameModel.initial), [gameId.value]);
   final animationTickerProvider = useSingleTickerProvider();
   final engineTickerProvider = useSingleTickerProvider();
 
   final stageState = useState(_Stage.notStarted);
   final wonCompleter = useMemoized(() => Completer<void>());
 
-  GameModelTween buildModelTween() =>
-      GameModelTween(begin: model.value, end: GameModel(translation: Vector2.zero(), positions: initialPositions));
+  Animation<GameModel> buildAnimation(AnimationController controller, GameModel end) =>
+      controller.drive(CurveTween(curve: config.animationCurve)).drive(GameModelTween(begin: model.value, end: end));
 
-  Future<void> animateToInitialPositions() async {
+  Future<void> animateTo(GameModel target) async {
     final animationController = AnimationController(
       vsync: animationTickerProvider,
-      duration: config.initialAnimationDuration,
+      duration: config.animationDuration,
     );
-    final animation =
-        animationController.drive(CurveTween(curve: config.initialAnimationCurve)).drive(buildModelTween());
+    final animation = buildAnimation(animationController, target);
     animation.addListener(() => model.value = animation.value);
     await animationController.forward();
   }
 
-  Future<void> start() async {
-    await animateToInitialPositions();
+  Future<void> shuffle() async => await animateTo(GameModel(positions: initialPositions));
+
+  Future<void> perform() async {
     stageState.value = _Stage.inProgress;
     await wonCompleter.future;
     stageState.value = _Stage.won;
   }
 
+  Future<void> reset() async {
+    await animateTo(GameModel.initial);
+    gameId.value++;
+    stageState.value = _Stage.notStarted;
+  }
+
   useEffect(() {
-    controller.perform = start;
-    return () => controller.perform = null;
+    controller
+      ..shuffle = shuffle
+      ..perform = perform
+      ..reset = reset;
+    return () => controller
+      ..shuffle = null
+      ..perform = null
+      ..reset = null;
   }, [controller]);
 
   void update(Duration elapsed) {
@@ -90,6 +108,7 @@ GameState useGameState({required GameConfig config, required GameController cont
     config: config,
     model: model,
     isWon: stageState.value == _Stage.won,
+    areGesturesEnabled: stageState.value == _Stage.inProgress && !isLocked,
     onPanStart: engine.onPanStart,
     onPanUpdate: engine.onPanUpdate,
     onPanEnd: engine.onPanEnd,

@@ -6,6 +6,7 @@ import 'package:game_15/game/state/game_state.dart';
 import 'package:game_15/game/view/game_view.dart';
 
 class Game extends HookWidget {
+  final bool isLocked;
   final GameConfig config;
   final GameController controller;
   final Widget child;
@@ -15,11 +16,12 @@ class Game extends HookWidget {
     required this.child,
     required this.config,
     required this.controller,
+    this.isLocked = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final state = useGameState(config: config, controller: controller);
+    final state = useGameState(isLocked: isLocked, config: config, controller: controller);
     return GameView(state: state, child: child);
   }
 }
