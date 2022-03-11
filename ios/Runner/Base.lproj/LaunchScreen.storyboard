@@ -43,6 +43,6 @@
     <resources>
         <image name="LaunchImage" width="325" height="325"/>
         <image name="LaunchBackground" width="1" height="1"/>
-        <image name="BrandingImage" width="408" height="160"/>
+        <image name="BrandingImage" width="408" height="232"/>
     </resources>
 </document>
