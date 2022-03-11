@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/animation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:game_15/engine/engine.dart';
@@ -43,23 +44,19 @@ GameState useGameState({
   final initialPositions = useMemoized(() => GameRandomizer.generatePositions(moves: config.moves), [gameId.value]);
   final engine = useMemoized(() => Engine(initialPositions: initialPositions), [gameId.value]);
   final model = useMemoized(() => ValueNotifier(GameModel.initial), [gameId.value]);
-  final animationTickerProvider = useSingleTickerProvider();
-  final engineTickerProvider = useSingleTickerProvider();
+  final animationController = useAnimationController(duration: config.animationDuration);
+  final engineTickerProvider = useSingleTickerProvider(keys: [gameId.value]);
 
   final stageState = useState(_Stage.notStarted);
-  final wonCompleter = useMemoized(() => Completer<void>());
+  final wonCompleter = useMemoized(() => Completer<void>(), [gameId.value]);
 
   Animation<GameModel> buildAnimation(AnimationController controller, GameModel end) =>
       controller.drive(CurveTween(curve: config.animationCurve)).drive(GameModelTween(begin: model.value, end: end));
 
   Future<void> animateTo(GameModel target) async {
-    final animationController = AnimationController(
-      vsync: animationTickerProvider,
-      duration: config.animationDuration,
-    );
     final animation = buildAnimation(animationController, target);
     animation.addListener(() => model.value = animation.value);
-    await animationController.forward();
+    await animationController.forward(from: 0);
   }
 
   Future<void> shuffle() async => await animateTo(GameModel(positions: initialPositions));
@@ -85,7 +82,7 @@ GameState useGameState({
       ..shuffle = null
       ..perform = null
       ..reset = null;
-  }, [controller]);
+  });
 
   void update(Duration elapsed) {
     engine.update(elapsed);

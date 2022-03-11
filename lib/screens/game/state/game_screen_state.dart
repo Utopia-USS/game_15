@@ -14,6 +14,8 @@ class GameScreenState {
   final void Function() setGame;
   final void Function() onMenuPressed;
 
+  final void Function() onResetPressed;
+
   final bool isLocked;
   final void Function(bool) onLockChanged;
 
@@ -23,6 +25,7 @@ class GameScreenState {
     required this.stage,
     required this.gameController,
     required this.setGame,
+    required this.onResetPressed,
     required this.onLockChanged,
     required this.isLocked,
   });
@@ -30,6 +33,8 @@ class GameScreenState {
   get initialDuration => const Duration(milliseconds: 300) + MenuScreen.transitionDuration;
 
   bool get isWon => stage == GameScreenStage.won;
+
+  bool get isResetVisible => stage != GameScreenStage.demo;
 }
 
 GameScreenState useGameScreenState({required Future<MenuScreenResult> Function() navigateToMenu}) {
@@ -40,17 +45,26 @@ GameScreenState useGameScreenState({required Future<MenuScreenResult> Function()
 
   final isGameLockedState = useState<bool>(false);
 
-  onMenuPressed() async {
+  void onMenuPressed() async {
     final result = await navigateToMenu();
     if (result == MenuScreenResult.game_changed) stageState.value = GameScreenStage.demo;
   }
 
-  setGame() async {
-    if (gameController.perform != null) {
-      stageState.value = GameScreenStage.inProgress;
+  void setGame() async {
+    if (gameController.isAttached) {
       await gameController.shuffle!();
+      stageState.value = GameScreenStage.inProgress;
       await gameController.perform!();
       stageState.value = GameScreenStage.won;
+    }
+  }
+
+  void reset() async {
+    if(gameController.isAttached) {
+      stageState.value = GameScreenStage.demo;
+      await gameController.reset!();
+      await Future.delayed(const Duration(seconds: 1));
+      setGame();
     }
   }
 
@@ -60,6 +74,7 @@ GameScreenState useGameScreenState({required Future<MenuScreenResult> Function()
     stage: stageState.value,
     gameController: gameController,
     setGame: setGame,
+    onResetPressed: reset,
     isLocked: isGameLockedState.value,
     onLockChanged: (value) => isGameLockedState.value = value,
   );
