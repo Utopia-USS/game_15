@@ -23,7 +23,7 @@ redefines what's achievable in Flutter.
 - Real-world-inspired puzzle physics (moving several tiles at once, snapping, board drifting)
 - Procedurally-generated initial configurations
 - Fully interactive puzzle content
-- 5 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
+- 5 levels of varying difficulties, selected to reflect some of the Flutter's unique capabilities:
     - [Color Picker](#Color-Picker)
     - [Custom Drawer](#Custom-Drawer)
     - [Water Ripple](#Water-Ripple)
