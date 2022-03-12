@@ -8,6 +8,8 @@ Unleash full Flutter potential in the classic puzzle. Interactively.
 <img src="video.gif" height="500px"/>
 </center>
 
+Web and Android builds available at the [Releases](https://github.com/Utopia-USS/game_15/releases) page.
+
 ## What it is
 
 Given the task of reimagining the classic "game of 15" puzzle in Flutter, we decided to apply one of the key concepts in
@@ -21,7 +23,7 @@ redefines what's achievable in Flutter.
 - Real-world-inspired puzzle physics (moving several tiles at once, snapping, board drifting)
 - Procedurally-generated initial configurations
 - Fully interactive puzzle content
-- 5 levels of various difficulties, selected to reflect some of the Flutter's unique capabilities:
+- 5 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
     - [Color Picker](#Color-Picker)
     - [Custom Drawer](#Custom-Drawer)
     - [Water Ripple](#Water-Ripple)
