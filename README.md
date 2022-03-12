@@ -22,11 +22,11 @@ redefines what's achievable in Flutter.
 - Procedurally-generated initial configurations
 - Fully interactive puzzle content
 - 5 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
-  - [Color Picker](#Color-Picker)
-  - [Custom Drawer](#Custom-Drawer)
-  - [Water Ripple](#Water-Ripple)
-  - [AR Cam](#AR-Cam) (not available on web, [why?](#Limitations))
-  - [Game x Game](#Game-x-Game)
+    - [Color Picker](#Color-Picker)
+    - [Custom Drawer](#Custom-Drawer)
+    - [Water Ripple](#Water-Ripple)
+    - [AR Cam](#AR-Cam) (not available on web, [why?](#Limitations))
+    - [Game x Game](#Game-x-Game)
 
 ## How it works?
 
@@ -103,9 +103,10 @@ There are 5 built-in interactive puzzles included to demonstrate endless creativ
 The easiest yet one of the most satisfying modes to play. We've come across this idea in the Briefly app a while ago and
 after a few adjustments it turned out to be a perfect fit to showcase our game's capabilities. It's an efficiently
 implemented, elegant picker.
+
 #### Custom Drawer
 
-Inspired by Marcin Szalek's "Implementing complex UI" talk, it was one of first "outside the box" widgets we've ever
+Inspired by Marcin Szalek's "Implementing complex UI" talk, was one of first "outside the box" widgets we've ever
 created. It redefines the approach to basic, well known components and shows the simplicity of creating eye-catching
 layouts using basic Flutter features.
 

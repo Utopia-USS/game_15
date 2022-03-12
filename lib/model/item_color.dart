@@ -11,7 +11,7 @@ class ItemColor {
 
   static final teal = ItemColor._(
     primary: const Color(0xff00E0C2),
-    accent: const Color(0xff45FFE6),
+    accent: const Color(0xff7BFFED),
   );
 
   static final purple = ItemColor._(
@@ -20,8 +20,8 @@ class ItemColor {
   );
 
   static final lavender = ItemColor._(
-    primary: const Color(0xff7771F0),
-    accent: const Color(0xff7289DA),
+    primary: const Color(0xff6E68F2),
+    accent: const Color(0xff869AE3),
   );
 
   static final deepBlue = ItemColor._(

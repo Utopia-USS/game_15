@@ -29,8 +29,8 @@ class ColorPickerItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(size / 12),
           border: Border.all(color: Colors.white, width: 2.5),
           gradient: LinearGradient(
-            end: Alignment.topRight,
-            begin: Alignment.bottomLeft,
+            end: Alignment.topCenter,
+            begin: Alignment.bottomCenter,
             colors: [
               color.primary,
               color.accent,
