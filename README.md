@@ -8,6 +8,8 @@ Unleash full Flutter potential in the classic puzzle. Interactively.
 <img src="video.gif" height="500px"/>
 </center>
 
+Web and Android builds available at the [Releases](https://github.com/Utopia-USS/game_15/releases) page.
+
 ## What is it?
 
 Given the task of reimagining the classic "game of 15" puzzle in Flutter, we decided to apply one of the key concepts in
