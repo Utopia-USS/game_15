@@ -13,7 +13,7 @@ Unleash full Flutter potential in the classic puzzle. Interactively.
 Given the task of reimagining the classic "game of 15" puzzle in Flutter, we decided to apply one of the key concepts in
 the framework - composability - to the game itself.  
 You can make *literally* any piece of Flutter UI the content of the game without losing interactivity, animations or
-compromising performance. Together with fun mechanics, beautiful visuals and 4 carefully selected levels, the game
+compromising performance. Together with fun mechanics, beautiful visuals and 5 carefully selected levels, the game
 redefines what's achievable in Flutter.
 
 ### Features
@@ -21,13 +21,12 @@ redefines what's achievable in Flutter.
 - Real-world-inspired puzzle physics (move several tiles at once, snapping, board drift)
 - Procedurally-generated initial configurations
 - Fully interactive puzzle content
-- 4 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
--
-    - [Color Picker](#Color-Picker)
-    - [Custom Drawer](#Custom-Drawer)
-    - [Water Ripple](#Water-Ripple)
-    - [AR Cam](#AR-Cam) (not available on web, [why?](#Limitations))
-    - [Game x Game](#Game-x-Game)
+- 5 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
+  - [Color Picker](#Color-Picker)
+  - [Custom Drawer](#Custom-Drawer)
+  - [Water Ripple](#Water-Ripple)
+  - [AR Cam](#AR-Cam) (not available on web, [why?](#Limitations))
+  - [Game x Game](#Game-x-Game)
 
 ## How it works?
 
@@ -101,32 +100,31 @@ There are 5 built-in interactive puzzles included to demonstrate endless creativ
 
 #### Color Picker
 
-The easiest yet one of the most satisfying modes to play. We've come across this idea in `Briefly` app a while ago and
-after a few adjustments it turned out to be a perfect fit for the display of our game's capabilities. It's an elegant
-picker which does not require rebuilding while animating due to the usage of `Custom Clipper` instead
-of `Animated Builder` making it extra efficient.
-
+The easiest yet one of the most satisfying modes to play. We've come across this idea in the Briefly app a while ago and
+after a few adjustments it turned out to be a perfect fit to showcase our game's capabilities. It's an efficiently
+implemented, elegant picker.
 #### Custom Drawer
 
-Inspired by `Marcin Szalek's` "Implementing complex UI" talk was one of our first outside the box widgets we've ever
+Inspired by Marcin Szalek's "Implementing complex UI" talk, it was one of first "outside the box" widgets we've ever
 created. It redefines the approach to basic, well known components and shows the simplicity of creating eye-catching
 layouts using basic Flutter features.
 
 #### Water Ripple
 
 The result of an experiment in which we used several layered widgets, modified with scaling and colored overlays to
-imitate the lensing effect of water ripples. Due to the `Game` transformations the level is not only extremely hard but
+imitate the lensing effect of water ripples. Due to the puzzle transformations the level is not only extremely hard but
 also can make you dizzy - you're welcome and be careful.
 
 #### AR Cam
 
 That's the point where we really started to push boundaries. We wanted to include some sort of media widget, for
-instance a video player, but we decided to give the `camera` a go. As straightforward as the widget is, it's still a
-hell of a lot of fun solving the puzzle made of your best bud's messed up face (or cat's if you don't like humans).
+instance a video player, but we decided to give the `camera` package a go. As straightforward as the widget is, it's
+still a hell of a lot of fun solving the puzzle made of your best bud's messed up face (or cat's if you don't like
+humans).
 
 #### Game x Game
 
-Since we are able to use any widget as the game's content, we decided to use the `Game` itself. You must translate
-between two boards in order to complete the puzzle. Taking into account additional degree of freedom it's the hardest
-mode to play and might not be winnable in a reasonable amount of time. If that's the case, why did we even bother creating
-it?  **Because we could**  
+Since we are able to use any widget as the game's content, we decided to use the `Game` widget itself. You must
+translate between two boards in order to complete the puzzle. Taking into account additional degree of freedom it's the
+hardest mode to play and might not be solvable in a reasonable amount of time. If that's the case, why did we even
+bother creating it?  **Because we could**  
