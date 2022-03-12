@@ -8,30 +8,31 @@ Unleash full Flutter potential in the classic puzzle. Interactively.
 <img src="video.gif" height="500px"/>
 </center>
 
-## What is it?
+## What it is
 
 Given the task of reimagining the classic "game of 15" puzzle in Flutter, we decided to apply one of the key concepts in
 the framework - composability - to the game itself.  
 You can make *literally* any piece of Flutter UI the content of the game without losing interactivity, animations or
-compromising performance. Together with fun mechanics, beautiful visuals and 5 carefully selected levels, the game
+compromising performance. Along with fun mechanics, beautiful visuals and 5 carefully selected levels, the game
 redefines what's achievable in Flutter.
 
 ### Features
 
-- Real-world-inspired puzzle physics (move several tiles at once, snapping, board drift)
+- Real-world-inspired puzzle physics (moving several tiles at once, snapping, board drifting)
 - Procedurally-generated initial configurations
 - Fully interactive puzzle content
-- 5 levels of varying difficulty, selected to reflect some of the Flutter's unique capabilities:
+- 5 levels of various difficulties, selected to reflect some of the Flutter's unique capabilities:
     - [Color Picker](#Color-Picker)
     - [Custom Drawer](#Custom-Drawer)
     - [Water Ripple](#Water-Ripple)
     - [AR Cam](#AR-Cam) (not available on web, [why?](#Limitations))
     - [Game x Game](#Game-x-Game)
 
-## How it works?
+## How it works
 
-We started the development with simple question: can you create a puzzle which can use *any* flutter widget as a
-content? As it turns out, with the right amount of digging around in the low-level flutter code, you can.  
+We started the development with a simple question: could you possibly create a puzzle which would be able to use *any*
+flutter widget as a content? As it turns out, with the right amount of digging around in the low-level flutter code, you
+can.  
 The final effect looks like this:
 
 ```dart
@@ -44,8 +45,8 @@ Widget build(BuildContext context) {
 ```
 
 Where `Game` handles the whole puzzle's logic.  
-Note that `child` can be *any* ordinary Flutter widget, and during the game it can alter its state, perform animations,
-receive tap gestures (transformed according to current tile's positions). Below we'll discuss how is this possible.
+Note that `child` can be *any* ordinary Flutter widget, which during the game can alter its state, perform animations
+and receive tap gestures (transformed according to current tile's positions). Below we discuss how this is possible.
 
 ### Kaleidoscope
 
@@ -54,7 +55,7 @@ arbitrary number of "shards". Each shard paints the child with different matrix 
 specified by `KaleidoscopeDelegate`. Geometry of these shards can be changed without the need to trigger rebuilds - much
 like the underappreciated `Flow` widget, but instead of painting multiple children once, we paint one child many
 times.  
-Apart from [limitations](#Limitations), there are no requirements on the child widget. It participates in layout and
+Apart from [limitations](#Limitations), there are no requirements for the child widget. It participates in layout and
 lifecycle as usual. Additionally, it's available for hit testing (first matching shard receives the transformed
 position).
 
@@ -73,7 +74,8 @@ See the `KeyedEngineLayerStorage` and `SceneBuilderWithStorage` classes for more
 
 #### Limitations
 
-Currently, there are some limitations on how the `Kaleidoscope` may be used, some of which can be removed in the future:
+Currently, there are some limitations on how the `Kaleidoscope` may be used, some of which can be resolved in the
+future:
 
 - Platform views are not supported - they are managed by the underlying platform, so we can't magically create multiple
   instances of them (on the other side, platform textures used by e.g. the `camera` package, do not cause such problems)
@@ -84,15 +86,15 @@ Currently, there are some limitations on how the `Kaleidoscope` may be used, som
 
 ### Engine
 
-Game mechanics during solving the puzzle are provided by the `Engine` class. It implements real-world-inspired physics
+Game mechanics during the puzzle solving are provided by the `Engine` class. It implements real-world-inspired physics
 by allowing bodies (tiles and the whole board) to move in both axes, while handling snapping, collisions and other
 features.
 
 ### Game
 
 `Game` manages the whole puzzle lifecycle (initialization, demo, shuffling, solving and winning). It acts as a bridge
-between `Engine` and `Kaleidoscope`, scheduling physics updates and displaying tiles' state on every frame. Most of the
-changes does not require rebuilding the widget tree which allows in to stay blazing-fast.
+between `Engine` and `Kaleidoscope`, scheduling physics updates and displaying tiles' state in every frame. Most of the
+changes do not require rebuilding the widget tree which allows staying blazing-fast.
 
 ### Game modes
 
@@ -114,7 +116,7 @@ layouts using basic Flutter features.
 
 The result of an experiment in which we used several layered widgets, modified with scaling and colored overlays to
 imitate the lensing effect of water ripples. Due to the puzzle transformations the level is not only extremely hard but
-also can make you dizzy - you're welcome and be careful.
+can also make you dizzy - you're welcome and be careful.
 
 #### AR Cam
 
@@ -126,6 +128,6 @@ humans).
 #### Game x Game
 
 Since we are able to use any widget as the game's content, we decided to use the `Game` widget itself. You must
-translate between two boards in order to complete the puzzle. Taking into account additional degree of freedom it's the
-hardest mode to play and might not be solvable in a reasonable amount of time. If that's the case, why did we even
-bother creating it?  **Because we could**  
+translate between two boards in order to complete the puzzle. Taking into account an additional degree of freedom, it's
+the hardest mode to play and might not be solvable in a reasonable amount of time. If that's the case, why did we even
+bother creating it?  **Because we could.**  
