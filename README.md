@@ -34,7 +34,7 @@ redefines what's achievable in Flutter.
 
 We started the development with a simple question: could you possibly create a puzzle which would be able to use *any*
 flutter widget as a content? As it turns out, with the right amount of digging around in the low-level flutter code, you
-can.  
+could.  
 The final effect looks like this:
 
 ```dart
